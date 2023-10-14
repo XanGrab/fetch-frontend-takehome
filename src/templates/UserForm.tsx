@@ -1,11 +1,11 @@
 import "./App.css";
-import { User } from "./User";
-import { authUser } from "./UserAuth";
+import { authUser } from "../UserAuth";
+import { User } from "../User";
 
-function FormTemplate() {
+function UserForm({ setUser }: { setUser: (user: User) => void }) {
   return (
     <>
-      <h1>Enter User Credentials</h1>
+      <h2>Please Enter User Credentials</h2>
       <form id="userForm">
         <fieldset>
           <label htmlFor="username">Enter your username</label>
@@ -22,14 +22,20 @@ function FormTemplate() {
         <div className="card">
           <button
             type="submit"
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
               const form: HTMLFormElement = document.getElementById(
                 "userForm"
               ) as HTMLFormElement;
 
               const data = new FormData(form);
-              authUser(data);
+              let response = await authUser(data);
+              if (response?.ok) {
+                setUser({
+                  name: data.get("username") as string,
+                  email: data.get("useremail") as string,
+                });
+              }
             }}
           >
             Login
@@ -40,4 +46,4 @@ function FormTemplate() {
   );
 }
 
-export default FormTemplate;
+export default UserForm;

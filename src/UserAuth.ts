@@ -22,14 +22,14 @@ async function authUser(form: FormData) {
     "Cookie",
     "AWSALB=LLo9yUwBMA6u/ppHxD5EdKh+6hguzt7/JoB1IgLF2DGW5Xgfk5GWl9FWXRk5FwZqsEEzXnxla+klwQuBvCLfRjz6Yj+iACe0fd+qm/UZPITzSoQMy+xnsmps5tfW; AWSALBCORS=LLo9yUwBMA6u/ppHxD5EdKh+6hguzt7/JoB1IgLF2DGW5Xgfk5GWl9FWXRk5FwZqsEEzXnxla+klwQuBvCLfRjz6Yj+iACe0fd+qm/UZPITzSoQMy+xnsmps5tfW; fetch-access-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiWGFuZGVyIiwiZW1haWwiOiJzdW5iaXJkLmdyYWJvd3NraUBnbWFpbC5jb20iLCJpYXQiOjE2OTcyODI2NTIsImV4cCI6MTY5NzI4NjI1Mn0.sdTvQ7I3qJLUMLjeemCJBW0JAul8ME8zRmoolCdCj4U"
   );
-  const user = JSON.stringify({
+  const raw = JSON.stringify({
     name: form.get("username"),
     email: form.get("useremail"),
   });
   const config: RequestInit = {
     method: "POST",
     headers: postHeader,
-    body: user,
+    body: raw,
     redirect: "follow",
     credentials: "include",
   };
@@ -37,8 +37,9 @@ async function authUser(form: FormData) {
   const request = new Request(input, config);
 
   try {
-    let responce = POST(request);
-    console.log("POST Sucess: user authenticated\n", responce);
+    let responce = await POST(request);
+    console.log("POST Sucess: user authenticated\n", responce?.ok);
+    return responce;
   } catch (err) {
     console.error("[authUser > POST] Error:", err);
   }

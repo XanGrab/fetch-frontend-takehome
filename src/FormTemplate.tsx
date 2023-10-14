@@ -24,6 +24,10 @@ function FormTemplate() {
             type="submit"
             onClick={(e) => {
               e.preventDefault();
+              const form: HTMLFormElement = document.getElementById(
+                "userForm"
+              ) as HTMLFormElement;
+
               const data = new FormData(form);
               authUser(data);
             }}
@@ -35,14 +39,5 @@ function FormTemplate() {
     </>
   );
 }
-
-const form: HTMLFormElement = document.getElementById(
-  "userForm"
-) as HTMLFormElement;
-
-// form?.addEventListener("submit", async (e) => {
-//   console.log("form submit event");
-//   e.preventDefault();
-// });
 
 export default FormTemplate;

@@ -1,4 +1,4 @@
-# fetch-frontend-takehome
+# Fetch Frontend Takehome Exercise - XanGrab
 
 a simple client-side api frontend for the take home test for Fetch
 

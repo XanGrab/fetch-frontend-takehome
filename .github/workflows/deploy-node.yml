@@ -3,8 +3,7 @@ name: Deploy Site to Pages 🚀
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -40,21 +39,20 @@ jobs:
           cache: "npm"
 
       - run: npm ci
-      - run: npm run build --if-present
-      #   - run: npm test
+      - run: npm run build
 
       - name: Upload Pages artifact
+        # uses: actions/upload-pages-artifact@v1
+        # with:
+        #   path: "./dist"
         uses: actions/upload-artifact@v2
         with:
           name: build-Node
-          path: dist
+          path: "./dist"
 
   # Deployment job
   Deploy:
     needs: Build
-
-    # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -74,8 +72,11 @@ jobs:
           name: build-Node
           path: dist
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: deploy
-          folder: dist # The folder the action should deploy.
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+    #   - name: Deploy 🚀
+    #     uses: JamesIves/github-pages-deploy-action@v4
+    #     with:
+    #       branch: deploy
+    #       folder: dist # The folder the action should deploy.

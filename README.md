@@ -1,6 +1,6 @@
 # fetch-frontend-takehome
 
-a simple client-side api frontend for Fetch test
+a simple client-side api frontend for the take home test for Fetch
 
 # View Deployment At
 

@@ -1,4 +1,4 @@
-import { User } from "./User";
+// import { User } from "./User";
 const fetch_base_uri = "https://frontend-take-home-service.fetch.com";
 const fetch_auth_endpoint = "/auth/login";
 

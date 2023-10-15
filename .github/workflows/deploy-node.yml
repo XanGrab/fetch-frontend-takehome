@@ -77,4 +77,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: deploy
+          clean:
           folder: dist # The folder the action should deploy.

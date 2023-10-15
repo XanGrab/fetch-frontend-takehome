@@ -2,10 +2,11 @@
 
 a simple client-side api frontend for the take home test for Fetch
 
-# View Deployment At
+## View Deployment At
 
 https://xangrab.github.io/fetch-frontend-takehome/
-API Reference
+
+## API Reference
 
 We provide our own backend to facilitate searching/fetching dog info. The base URL is https://frontend-take-home-service.fetch.com.
 Data Model

@@ -1,6 +1,6 @@
 # Fetch Frontend Takehome Exercise - XanGrab
 
-a simple client-side api frontend for the take home test for Fetch
+a simple client-side API frontend for the take-home test for Fetch
 
 ## View Deployment At
 
@@ -26,16 +26,16 @@ You may find it helpful to make use of a component library.
 
 ### Additional Requirements
 
-    Your app should be hosted on the internet where it can be visited and interacted with
-    Your source code should be stored in a git repository and hosted on the internet (i.e. GitHub)
-    You should include any necessary documentation to run your site locally
+- [ ] Your app should be hosted on the internet where it can be visited and interacted with
+- [ ] Your source code should be stored in a git repository and hosted on the internet (i.e. GitHub)
+- [ ] You should include any necessary documentation to run your site locally
 
 An engineer will review the code you submit. You will be evaluated based on:
 
-    Code quality
-    Use of best practices
-    Fulfillment of minimum requirements
-    Site usability/UX
+* Code quality
+* Use of best practices
+* Fulfillment of minimum requirements
+* Site usability/UX
 
 ## API Reference
 
@@ -78,16 +78,16 @@ interface Coordinates {
 
 You will need to hit the login endpoint in order to access other endpoints. A successful request to the login endpoint will return an auth cookie included in the set-cookie response header. It’s an `HttpOnly` cookie, so you will not be able to access this value from any Javascript code (nor should you need to). Your browser will automatically send this cookie with all successive credentialed requests to the API. Note that you will need to pass a config option in order to send credentials (cookies) with each request. Some documentation to help you with this:
 
-    * Including credentials with fetch (set credentials: 'include' in request config)
-    * Including credentials with axios (set withCredentials: true in request config)
+* Including credentials with fetch (set credentials: 'include' in request config)
+* Including credentials with axios (set withCredentials: true in request config)
 
 Postman will do this for you automatically.
 
 ### POST /auth/login
 Body Parameters
 
-    name - the user’s name
-    email - the user’s email
+`name` - the user’s name
+`email` - the user’s email
 
 Example
 
@@ -118,25 +118,25 @@ Query Parameters
 
 The following query parameters can be supplied to filter the search results. All are optional; if none are provided, the search will match all dogs.
 
-    `breeds` - an array of breeds
-    `zipCodes` - an array of zip codes
-    `ageMin` - a minimum age
-    `ageMax` - a maximum age
+`breeds` - an array of breeds
+`zipCodes` - an array of zip codes
+`ageMin` - a minimum age
+`ageMax` - a maximum age
 
 Additionally, the following query parameters can be used to configure the search:
 
-    `size` - the number of results to return; defaults to 25 if omitted
-    `from` - a cursor to be used when paginating results (optional)
-    `sort` - the field by which to sort results, and the direction of the sort; in the format sort=field:[asc|desc]
+`size` - the number of results to return; defaults to 25 if omitted
+`from` - a cursor to be used when paginating results (optional)
+`sort` - the field by which to sort results, and the direction of the sort; in the format sort=field:[asc|desc]
 
 Return Value
 
 Returns an object with the following properties:
 
-    `resultIds` - an array of dog IDs matching your query
-    `total` - the total number of results for the query (not just the current page)
-    `next` - a query to request the next page of results (if one exists)
-    `prev` - a query to request the previous page of results (if one exists)
+`resultIds` - an array of dog IDs matching your query
+`total` - the total number of results for the query (not just the current page)
+`next` - a query to request the next page of results (if one exists)
+`prev` - a query to request the previous page of results (if one exists)
 
 The maximum total number of dogs that will be matched by a single query is 10,000.
 
@@ -197,21 +197,21 @@ Body Parameters
 
 The following body parameters can be supplied to filter the search results. All are optional; if none are provided, the search will match all locations.
 
-    `city` - the full or partial name of a city
-    `states` - an array of two-letter state/territory abbreviations
-    `geoBoundingBox` - an object defining a geographic bounding box:
-        This object must contain one of the following combinations of properties:
-            top, left, bottom, right
-            bottom_left, top_right
-            bottom_right, top_left
-        Each property should have the following data:
-            lat - latitude
-            lon - longitude
+`city` - the full or partial name of a city
+`states` - an array of two-letter state/territory abbreviations
+`geoBoundingBox` - an object defining a geographic bounding box:
+    This object must contain one of the following combinations of properties:
+        top, left, bottom, right
+        bottom_left, top_right
+        bottom_right, top_left
+    Each property should have the following data:
+        lat - latitude
+        lon - longitude
 
 Additionally, the following body parameters can be used to configure the search:
 
-    `size` - the number of results to return; defaults to 25 if omitted
-    `from` - a cursor to be used when paginating results (optional)
+`size` - the number of results to return; defaults to 25 if omitted
+`from` - a cursor to be used when paginating results (optional)
 
 The maximum total number of ZIP codes that will be matched by a single query is 10,000.
 
@@ -239,8 +239,8 @@ Return Value
 
 Returns an object with the following properties:
 
-    results - an array of Location objects
-    total - the total number of results for the query (not just the current page)
+`results` - an array of Location objects
+`total` - the total number of results for the query (not just the current page)
 
 ```
 {

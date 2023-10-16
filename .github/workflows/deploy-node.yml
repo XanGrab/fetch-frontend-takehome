@@ -1,0 +1,81 @@
+# Sample workflow for building and deploying a Hugo site to GitHub Pages
+name: Deploy Site to Pages 🚀
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }} 🛠️
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Upload Pages artifact
+        # uses: actions/upload-pages-artifact@v1
+        # with:
+        #   path: "./dist"
+        uses: actions/upload-artifact@v2
+        with:
+          path: "./dist"
+
+  # Deployment job
+  Deploy:
+    needs: Build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v3
+
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v3
+
+      - uses: actions/download-artifact@v2
+        with:
+          path: "./dist"
+
+      #   - name: Deploy to GitHub Pages
+      #     id: deployment
+      #     uses: actions/deploy-pages@v1
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: deploy
+          clean:
+          folder: "./dis " # The folder the action should deploy.

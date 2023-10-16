@@ -26,9 +26,9 @@ You may find it helpful to make use of a component library.
 
 ### Additional Requirements
 
-- [ ] Your app should be hosted on the internet where it can be visited and interacted with
-- [ ] Your source code should be stored in a git repository and hosted on the internet (i.e. GitHub)
-- [ ] You should include any necessary documentation to run your site locally
+- [x] Your app should be hosted on the internet where it can be visited and interacted with
+- [x] Your source code should be stored in a git repository and hosted on the internet (i.e. GitHub)
+- [x] You should include any necessary documentation to run your site locally
 
 An engineer will review the code you submit. You will be evaluated based on:
 

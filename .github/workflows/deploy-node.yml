@@ -47,7 +47,7 @@ jobs:
         #   path: "./dist"
         uses: actions/upload-artifact@v2
         with:
-          path: dist
+          path: "./dist"
 
   # Deployment job
   Deploy:
@@ -68,7 +68,7 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          path: dist
+          path: "./dist"
 
       #   - name: Deploy to GitHub Pages
       #     id: deployment
@@ -78,4 +78,4 @@ jobs:
         with:
           branch: deploy
           clean:
-          folder: dist # The folder the action should deploy.
+          folder: "./dist" # The folder the action should deploy.

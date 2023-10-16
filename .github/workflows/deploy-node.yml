@@ -47,6 +47,7 @@ jobs:
         #   path: "./dist"
         uses: actions/upload-artifact@v2
         with:
+          name: build-artifact
           path: "./dist"
 
   # Deployment job

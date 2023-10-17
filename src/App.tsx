@@ -26,8 +26,8 @@ function App() {
     name: null,
     email: null,
   });
-  const [selectedDogs, setSelectedDogs] = useState([] as string[]);
-  const [queriedDogs, setQueriedDogs] = useState([] as string[]);
+  //   const [selectedDogs, setSelectedDogs] = useState([] as string[]);
+  //   const [queriedDogs, setQueriedDogs] = useState([] as string[]);
 
   return (
     <ThemeProvider theme={theme}>

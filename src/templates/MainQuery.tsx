@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 import { FETCH_BASE_URI, BREEDS_URI, SEARCH_URI } from "../Util";
 import DogCard from "../components/DogCard";
 import { Container, Grid } from "@mui/material";
-import { useState } from "react";
+// import { useState } from "react";
 
 export async function fetchDogBreeds() {
   let getHeader = new Headers();
@@ -60,7 +60,7 @@ export async function fetchDogIds() {
 }
 
 function MainQuery() {
-  const [queryParams, setQueryParams] = useState({});
+  //   const [queryParams, setQueryParams] = useState({});
   return (
     <>
       <BreedComboBox />

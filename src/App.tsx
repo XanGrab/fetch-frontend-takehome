@@ -6,19 +6,13 @@ import UserForm from "./components/UserForm";
 import MainQuery from "./templates/MainQuery";
 import {
   AppBar,
+  Box,
+  Container,
   CssBaseline,
-  ThemeProvider,
+  Toolbar,
   Typography,
-  createTheme,
 } from "@mui/material";
-import { purple, yellow } from "@mui/material/colors";
 
-const theme = createTheme({
-  palette: {
-    primary: purple,
-    secondary: yellow,
-  },
-});
 const queryClient = new QueryClient();
 
 function App() {
@@ -30,17 +24,17 @@ function App() {
   //   const [queriedDogs, setQueriedDogs] = useState([] as string[]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <AppBar
-        position="static"
-        sx={{
-          backgroundColor: purple,
-        }}
-      >
-        <CssBaseline />
-        <Typography variant="h6" noWrap>
-          Fetch Your Dog 🐶
-        </Typography>
+    <Container component="main" maxWidth="xl">
+      <CssBaseline />
+
+      <AppBar position="static">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Typography variant="h6" noWrap>
+              Fetch Your Dog 🐶
+            </Typography>
+          </Toolbar>
+        </Container>
       </AppBar>
       <br />
       <section className="body">
@@ -52,7 +46,7 @@ function App() {
           <UserForm setUser={setCurrentUser} />
         )}
       </section>
-    </ThemeProvider>
+    </Container>
   );
 }
 

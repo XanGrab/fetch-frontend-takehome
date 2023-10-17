@@ -46,6 +46,7 @@ function UserForm({ setUser }: { setUser: (user: User) => void }) {
 async function authUser(form: FormData) {
   let postHeader = new Headers();
   postHeader.append("Content-Type", "application/json");
+  postHeader.append("Cookies", document.cookie);
   const raw = JSON.stringify({
     name: form.get("username"),
     email: form.get("useremail"),
@@ -64,7 +65,9 @@ async function authUser(form: FormData) {
 
   try {
     let responce = await handleFetch(request);
-    console.log("POST Sucess: user authenticated\n", responce?.ok);
+    if (responce?.ok) {
+      console.log("POST Sucess: user authenticated\n", responce.ok);
+    }
     return responce;
   } catch (err) {
     console.error("[authUser > POST] Error:", err);

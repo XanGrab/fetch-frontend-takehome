@@ -1,4 +1,4 @@
-interface Dog {
+class Dog {
   id: string;
   img: string;
   name: string;
@@ -20,7 +20,8 @@ interface Coordinates {
   lat: number;
   lon: number;
 }
-
 interface Match {
   match: string;
 }
+
+export { Dog, Location, Coordinates, Match };

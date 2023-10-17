@@ -3,7 +3,7 @@ import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { User } from "./User";
 import UserForm from "./components/UserForm";
-import MainQuery from "./components/MainQuery";
+import MainQuery from "./templates/MainQuery";
 import {
   AppBar,
   CssBaseline,
@@ -13,6 +13,12 @@ import {
 } from "@mui/material";
 import { purple, yellow } from "@mui/material/colors";
 
+const theme = createTheme({
+  palette: {
+    primary: purple,
+    secondary: yellow,
+  },
+});
 const queryClient = new QueryClient();
 
 function App() {
@@ -20,17 +26,17 @@ function App() {
     name: null,
     email: null,
   });
-
-  const theme = createTheme({
-    palette: {
-      primary: purple,
-      secondary: yellow,
-    },
-  });
+  const [selectedDogs, setSelectedDogs] = useState([] as string[]);
+  const [queriedDogs, setQueriedDogs] = useState([] as string[]);
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar color="primary" position="static">
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: purple,
+        }}
+      >
         <CssBaseline />
         <Typography variant="h6" noWrap>
           Fetch Your Dog 🐶

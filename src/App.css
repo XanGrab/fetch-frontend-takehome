@@ -3,6 +3,24 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  align-items: center;
+}
+
+.header {
+  padding: 60px;
+  text-align: center;
+  background: #5a1756;
+  color: white;
+  font-size: 30px;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+fieldset {
+  border: 0 none;
 }
 
 .logo {

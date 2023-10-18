@@ -6,7 +6,6 @@ import UserForm from "./components/UserForm";
 import MainQuery from "./templates/MainQuery";
 import {
   AppBar,
-  Box,
   Container,
   CssBaseline,
   Toolbar,
@@ -20,8 +19,6 @@ function App() {
     name: null,
     email: null,
   });
-  //   const [selectedDogs, setSelectedDogs] = useState([] as string[]);
-  //   const [queriedDogs, setQueriedDogs] = useState([] as string[]);
 
   return (
     <Container component="main" maxWidth="xl">

@@ -6,7 +6,8 @@ import { useQuery } from "react-query";
 import { FETCH_BASE_URI, BREEDS_URI, SEARCH_URI } from "../Util";
 import DogCard from "../components/DogCard";
 import { Container, Grid } from "@mui/material";
-// import { useState } from "react";
+import TempCard from "../components/TempCard";
+import { useState } from "react";
 
 export async function fetchDogBreeds() {
   let getHeader = new Headers();
@@ -31,13 +32,11 @@ export async function fetchDogBreeds() {
  * @returns
  */
 //TODO explicit type saftey
-export async function fetchDogIds() {
+export async function fetchDogIds({ queryKey }: { queryKey: any }) {
+  let [_key, params] = queryKey;
   let getHeader = new Headers();
   getHeader.append("Content-Type", "application/json");
   getHeader.append("Cookie", document.cookie);
-
-  //TODO get additional query params outside of body in uri
-  const queryParams = new URLSearchParams({});
 
   const requestConfig: RequestInit = {
     method: "GET",
@@ -46,12 +45,13 @@ export async function fetchDogIds() {
     credentials: "include",
   };
 
+  console.dir("DEBUG [MainQuery]: ", params);
   console.log(
     "DEBUG [MainQuery > URL built]: ",
-    FETCH_BASE_URI + SEARCH_URI + queryParams.toString()
+    FETCH_BASE_URI + SEARCH_URI + params.toString()
   );
   const request = new Request(
-    FETCH_BASE_URI + SEARCH_URI + queryParams.toString(),
+    FETCH_BASE_URI + SEARCH_URI + params.toString(),
     requestConfig
   );
   let response = await handleFetch(request);
@@ -60,12 +60,14 @@ export async function fetchDogIds() {
 }
 
 function MainQuery() {
-  //   const [queryParams, setQueryParams] = useState({});
+  const [queryParams, setQueryParams] = useState<URLSearchParams>(
+    new URLSearchParams({ size: "16", from: "0" })
+  );
   return (
     <>
       <BreedComboBox />
       <br />
-      <DogCardGrid />
+      <DogCardGrid queryParams={queryParams} />
     </>
   );
 }
@@ -98,9 +100,9 @@ function BreedComboBox() {
   );
 }
 
-function DogCardGrid() {
+function DogCardGrid({ queryParams }: { queryParams: URLSearchParams }) {
   const { data: ids, status: ids_status } = useQuery({
-    queryKey: ["dogs"],
+    queryKey: ["dogs", queryParams],
     queryFn: fetchDogIds,
   });
 
@@ -116,9 +118,13 @@ function DogCardGrid() {
   return (
     <Container sx={{ py: 8 }} maxWidth="md">
       <Grid container spacing={4}>
-        {ids.resultIds.map((id: string) => (
-          <DogCard dogId={id} />
-        ))}
+        {ids.resultIds
+          ? ids.resultIds.map((id: string) => {
+              <DogCard key={id} dogId={id} />;
+            })
+          : [...Array(queryParams.size)].map((_, i) => {
+              <TempCard key={i} />;
+            })}
       </Grid>
     </Container>
   );

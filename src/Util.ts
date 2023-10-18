@@ -1,9 +1,9 @@
-import { Dog } from "./Dog";
+import { Dog } from "./types";
 
 const FETCH_BASE_URI = "https://frontend-take-home-service.fetch.com";
 const FETCH_AUTH_ENDPOINT = "/auth/login";
 const BREEDS_URI = "/dogs/breeds";
-const SEARCH_URI = "/dogs/search";
+const SEARCH_URI = "/dogs/search?";
 
 //Create a POST req and return the response object
 async function handleFetch(req: Request) {

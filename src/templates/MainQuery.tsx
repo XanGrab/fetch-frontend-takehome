@@ -31,7 +31,6 @@ export async function fetchDogBreeds() {
 }
 
 /**
- *
  * @param body the query params to be passed to the function
  * @returns
  */
@@ -63,7 +62,7 @@ export async function fetchDogIds({ queryKey }: { queryKey: any }) {
 }
 
 function MainQuery() {
-  const [queryParams, setQueryParams] = useState<SearchParams>(
+  const [queryParams, setQueryParams] = useState<URLSearchParams>(
     new URLSearchParams({ from: "0", size: "" + resultsPerPage })
   );
   const [page, setPage] = useState(1);
@@ -78,7 +77,7 @@ function MainQuery() {
       newParams.append(key, value);
     }
     newParams.set("from", "" + resultsPerPage * (newPage - 1));
-    setQueryParams(newParams);
+    setQueryParams(queryParams);
     refetch();
   }
 

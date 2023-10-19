@@ -72,11 +72,12 @@ function MainQuery() {
     console.log("DEBUG [MainQuery > handlePageChange] newPage", newPage);
     setPage(newPage);
 
-    let newParams = new URLSearchParams();
-    for (const [key, value] of queryParams) {
-      newParams.append(key, value);
-    }
-    newParams.set("from", "" + resultsPerPage * (newPage - 1));
+    // let newParams = new URLSearchParams();
+    // for (const [key, value] of queryParams) {
+    //   newParams.append(key, value);
+    // }
+    // newParams.set("from", "" + resultsPerPage * (newPage - 1));
+    queryParams.set("from", "" + resultsPerPage * (newPage - 1));
     setQueryParams(queryParams);
     refetch();
   }

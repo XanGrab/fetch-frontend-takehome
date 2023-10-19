@@ -126,7 +126,6 @@ async function matchRequest(ids: string[]) {
   const request = new Request(BASE_URI + MATCH_ENDPOINT, requestOptions);
 
   //   let dog: Dog | null | undefined = null;
-  let dog = null;
   let match = "";
   try {
     let response = await handleFetch(request);
@@ -136,14 +135,18 @@ async function matchRequest(ids: string[]) {
   } catch (err) {
     console.error(err);
   }
+  let dog = null;
   try {
     dog = await idToDog([match]);
-    if (typeof dog === (typeof null || typeof undefined)) {
-      throw new Error("ERROR [matchRequest > idToDog] returned non-Dog type");
+    if (typeof dog === (null || undefined)) {
+      console.dir("ERROR [matchRequest > idToDog] returned non-Dog type ", dog);
     }
   } catch (err) {
     console.error(err);
   }
+
+  //TODO create pop up
+  console.dir("DEBUG [FilterStack > matchRequest] matched with: ", dog);
 }
 
 //TODO function type safety

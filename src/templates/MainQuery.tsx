@@ -63,7 +63,7 @@ export async function fetchDogIds({ queryKey }: { queryKey: any }) {
 }
 
 function MainQuery() {
-  const [queryParams, setQueryParams] = useState<URLSearchParams>(
+  const [queryParams, setQueryParams] = useState<SearchParams>(
     new URLSearchParams({ from: "0", size: "" + resultsPerPage })
   );
   const [page, setPage] = useState(1);

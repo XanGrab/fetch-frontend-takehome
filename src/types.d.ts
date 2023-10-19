@@ -7,15 +7,15 @@ class Dog {
   breed: string;
 }
 
-// interface SearchParams {
-//   breeds?: Array<string>;
-//   zipCodes?: Array<string>;
-//   ageMin?: int;
-//   ageMax?: int;
-//   size: int;
-//   from?: int;
-//   sort?: "field:[asc]" | "field[desc]";
-// }
+interface SearchParams {
+  breeds?: Array<string>;
+  zipCodes?: Array<string>;
+  ageMin?: int;
+  ageMax?: int;
+  size: int;
+  from?: int;
+  sort?: "field:[asc]" | "field[desc]";
+}
 
 interface Location {
   zip_code: string;
@@ -34,4 +34,4 @@ interface Match {
   match: string;
 }
 
-export { Dog, Location, Coordinates, Match };
+export { Dog, SearchParams, Location, Coordinates, Match };

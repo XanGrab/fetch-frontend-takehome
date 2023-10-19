@@ -7,7 +7,7 @@ import { FETCH_BASE_URI, BREEDS_URI, SEARCH_URI } from "../Util";
 import DogCard from "../components/DogCard";
 import { Box, Container, Grid, Pagination } from "@mui/material";
 import TempCard from "../components/TempCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { keepPreviousData } from "@tanstack/react-query";
 import { Pets } from "@mui/icons-material";
@@ -69,6 +69,13 @@ function MainQuery() {
   const [page, setPage] = useState(1);
   const [selectedDogs, setSelectedDogs] = useState<Array<string>>([]);
 
+  useEffect(() => {
+    console.dir("DEBUG [MainQuery] queryParams:", queryParams);
+  }, [queryParams]);
+  useEffect(() => {
+    console.dir("DEBUG [MainQuery] selected:", selectedDogs);
+  }, [selectedDogs]);
+
   function handlePageChange(_event: React.ChangeEvent<any>, newPage: number) {
     console.log("DEBUG [MainQuery > handlePageChange] newPage", newPage);
     setPage(newPage);
@@ -93,8 +100,8 @@ function MainQuery() {
     placeholderData: keepPreviousData,
   });
 
-  //TODO make dog card grid update on state change
-  console.log("DEBUG [MainQuery] queryParams:", queryParams);
+  // TODO make dog card grid update locally on state change
+  // issue lies in the URLSearchParams as a state object
   return (
     <Container
       sx={{

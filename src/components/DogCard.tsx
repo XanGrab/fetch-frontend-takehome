@@ -116,7 +116,6 @@ function DogCard({
                   })
                 );
               }
-              console.dir("DEBUG [DogCard] selected ", selectedDogs);
             }}
           >
             Select

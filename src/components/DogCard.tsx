@@ -107,14 +107,14 @@ function DogCard({
             size="small"
             onClick={() => {
               setSelected(!selected);
-              if (!selected) {
-                setSelectedDogs([...selectedDogs, dog.id]);
-              } else {
+              if (dog.id in selectedDogs) {
                 setSelectedDogs(
                   selectedDogs.filter((id) => {
                     return id !== dog.id;
                   })
                 );
+              } else {
+                setSelectedDogs([...selectedDogs, dog.id]);
               }
             }}
           >

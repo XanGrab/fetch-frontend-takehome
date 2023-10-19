@@ -5,9 +5,13 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { useQuery } from "react-query";
 import { FETCH_BASE_URI, BREEDS_URI, SEARCH_URI } from "../Util";
 import DogCard from "../components/DogCard";
-import { Container, Grid, Typography } from "@mui/material";
+import { Container, Grid, Pagination, Typography } from "@mui/material";
 import TempCard from "../components/TempCard";
 import { useState } from "react";
+import React from "react";
+import { QueryKey, keepPreviousData } from "@tanstack/react-query";
+
+const resultsPerPage = 16;
 
 export async function fetchDogBreeds() {
   let getHeader = new Headers();
@@ -61,7 +65,7 @@ export async function fetchDogIds({ queryKey }: { queryKey: any }) {
 
 function MainQuery() {
   const [queryParams, setQueryParams] = useState<URLSearchParams>(
-    new URLSearchParams({ from: "0", size: "16" })
+    new URLSearchParams({ from: "0", size: "" + resultsPerPage })
   );
   return (
     <Container
@@ -113,9 +117,15 @@ function BreedComboBox({ setParams }: { setParams: any }) {
 }
 
 function DogCardGrid({ queryParams }: { queryParams: URLSearchParams }) {
-  const { data: ids, status: ids_status } = useQuery({
+  const [page, setPage] = React.useState(0);
+  const {
+    data: ids,
+    refetch,
+    status: ids_status,
+  } = useQuery({
     queryKey: ["dogs", queryParams],
     queryFn: fetchDogIds,
+    placeholderData: keepPreviousData,
   });
 
   if (ids_status === "loading") {
@@ -123,6 +133,13 @@ function DogCardGrid({ queryParams }: { queryParams: URLSearchParams }) {
   }
   if (ids_status === "error") {
     return <p>Error!</p>;
+  }
+
+  function handlePageChange(event: React.ChangeEvent<any>, page: number) {
+    console.log("DEBUG [MainQuery > handlePageChange]");
+    setPage(page);
+    queryParams.set("from", "" + resultsPerPage * page);
+    refetch();
   }
 
   console.log("DEBUG [MainQuery > ids]: ", ids);
@@ -133,6 +150,17 @@ function DogCardGrid({ queryParams }: { queryParams: URLSearchParams }) {
           <DogCard key={id} dogId={id} />
         ))}
       </Grid>
+      <br />
+      {ids_status ? (
+        <Pagination
+          count={ids.total / resultsPerPage}
+          color="primary"
+          onChange={handlePageChange}
+          size="large"
+        />
+      ) : (
+        <Pagination disabled />
+      )}
     </Container>
   );
 }

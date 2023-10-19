@@ -76,7 +76,7 @@ function DogCard({
   if (dog) {
     return (
       <Card
-        elevation={selected ? 6 : 2}
+        elevation={selected ? 8 : 2}
         sx={{
           maxWidth: 345,
           height: "100%",
@@ -116,7 +116,7 @@ function DogCard({
                   })
                 );
               }
-              //   console.dir("DEBUG [DogCard] selected ", selectedDogs);
+              console.dir("DEBUG [DogCard] selected ", selectedDogs);
             }}
           >
             Select

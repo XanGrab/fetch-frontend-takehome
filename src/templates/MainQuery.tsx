@@ -78,15 +78,15 @@ function MainQuery() {
     refetch();
   }
 
-  const { data: ids, refetch } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["dogs", queryParams],
     queryFn: fetchDogIds,
     placeholderData: keepPreviousData,
   });
 
-  useEffect(() => {
-    refetch();
-  }, [queryParams]);
+  //   useEffect(() => {
+  //     refetch();
+  //   }, [queryParams, page]);
 
   //TODO make dog card grid update on state change
   console.log("DEBUG [MainQuery] queryParams:", queryParams);
@@ -102,18 +102,18 @@ function MainQuery() {
         refetch={refetch}
       />
       <br />
-      {ids ? (
+      {data ? (
         <DogCardGrid
-          resultIds={ids.resultIds}
+          queryResponse={data}
           selectedDogs={selectedDogs}
           setSelectedDogs={setSelectedDogs}
         />
       ) : (
         <TempCard />
       )}
-      {ids ? (
+      {data ? (
         <Pagination
-          count={ids.total / resultsPerPage}
+          count={data.total / resultsPerPage}
           color="primary"
           page={page}
           onChange={handlePageChange}
@@ -186,19 +186,19 @@ function BreedComboBox({
 }
 
 function DogCardGrid({
-  resultIds,
+  queryResponse,
   selectedDogs,
   setSelectedDogs,
 }: {
-  resultIds: Array<string>; // currently displayed dogs
+  queryResponse: any; // currently displayed dogs
   selectedDogs: Array<string>; // currently selected dogs
   setSelectedDogs: any;
 }) {
-  console.log("DEBUG [DogCardGrid] ids:", resultIds);
+  console.log("DEBUG [DogCardGrid] ids:", queryResponse);
   return (
     <Container sx={{ py: 8 }}>
       <Grid container spacing={2}>
-        {resultIds.map((id: string) => (
+        {queryResponse.resultIds.map((id: string) => (
           <DogCard
             key={id}
             dogId={id}

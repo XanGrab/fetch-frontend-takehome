@@ -22,7 +22,7 @@ function DogCard({
   selectedDogs: Array<string>;
   setSelectedDogs: any;
 }) {
-  const [selected, setSelected] = useState(dogId in selectedDogs);
+  const [selected, setSelected] = useState(selectedDogs.includes(dogId));
   const { data: dog, status } = useQuery({
     queryKey: ["dog", dogId],
     queryFn: () => {
@@ -75,13 +75,17 @@ function DogCard({
               size="small"
               onClick={() => {
                 setSelected(!selected);
-                if (dog.id in selectedDogs) {
-                  let temp = [...selectedDogs];
-                  temp.filter((id) => {
-                    return id !== dog.id;
-                  });
-                  setSelectedDogs(temp);
+                if (selectedDogs.includes(dog.id)) {
+                  console.log(
+                    `DEBUG [DogCard ${dogId}] remove me ->`,
+                    selectedDogs
+                  );
+                  setSelectedDogs(selectedDogs.filter((id) => id != dog.id));
                 } else {
+                  console.log(
+                    `DEBUG [DogCard ${dogId}] add me ->`,
+                    selectedDogs
+                  );
                   setSelectedDogs([...selectedDogs, dog.id]);
                 }
               }}

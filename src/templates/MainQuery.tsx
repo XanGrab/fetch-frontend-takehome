@@ -73,8 +73,12 @@ function MainQuery() {
     console.log("DEBUG [MainQuery > handlePageChange] newPage", newPage);
     setPage(newPage);
 
-    queryParams.set("from", "" + resultsPerPage * (newPage - 1));
-    setQueryParams(queryParams);
+    let newParams = new URLSearchParams();
+    for (const [key, value] of queryParams) {
+      newParams.append(key, value);
+    }
+    newParams.set("from", "" + resultsPerPage * (newPage - 1));
+    setQueryParams(newParams);
     refetch();
   }
 
@@ -83,10 +87,6 @@ function MainQuery() {
     queryFn: fetchDogIds,
     placeholderData: keepPreviousData,
   });
-
-  //   useEffect(() => {
-  //     refetch();
-  //   }, [queryParams, page]);
 
   //TODO make dog card grid update on state change
   console.log("DEBUG [MainQuery] queryParams:", queryParams);
@@ -113,7 +113,7 @@ function MainQuery() {
       )}
       {data ? (
         <Pagination
-          count={data.total / resultsPerPage}
+          count={Math.ceil(data.total / resultsPerPage)}
           color="primary"
           page={page}
           onChange={handlePageChange}

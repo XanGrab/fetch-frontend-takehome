@@ -8,14 +8,15 @@ import {
   TextField,
 } from "@mui/material";
 import { useQuery } from "react-query";
-import { Dog } from "../types";
 import {
   BASE_URI,
   BREEDS_ENDPOINT,
   MATCH_ENDPOINT,
   handleFetch,
   idToDog,
-} from "../Util";
+} from "../util";
+// TODO broken import
+// import { Dog } from "../types/types";
 
 export async function fetchDogBreeds() {
   let getHeader = new Headers();
@@ -124,7 +125,7 @@ async function matchRequest(ids: string[]) {
   };
   const request = new Request(BASE_URI + MATCH_ENDPOINT, requestOptions);
 
-  let dog: Dog | null | undefined = null;
+  //   let dog: Dog | null | undefined = null;
   let match = "";
   try {
     let response = await handleFetch(request);
@@ -134,14 +135,18 @@ async function matchRequest(ids: string[]) {
   } catch (err) {
     console.error(err);
   }
+  let dog = null;
   try {
     dog = await idToDog([match]);
-    if (typeof dog != typeof Dog) {
-      throw new Error("ERROR [matchRequest > idToDog] returned non-Dog type");
+    if (typeof dog === (null || undefined)) {
+      console.dir("ERROR [matchRequest > idToDog] returned non-Dog type ", dog);
     }
   } catch (err) {
     console.error(err);
   }
+
+  //TODO create pop up
+  console.dir("DEBUG [FilterStack > matchRequest] matched with: ", dog);
 }
 
 //TODO function type safety

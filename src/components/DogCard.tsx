@@ -7,12 +7,13 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import { Dog } from "../types";
+import { idToDog } from "../util";
 import TempCard from "./TempCard";
 import { useQuery } from "react-query";
-import { idToDog } from "../Util";
 import { useState } from "react";
 import { FavoriteBorderRounded, FavoriteRounded } from "@mui/icons-material";
+// TODO broken import statement
+// import { Dog } from "../types/types";
 
 function DogCard({
   dogId,
@@ -28,14 +29,14 @@ function DogCard({
     queryKey: ["dog", dogId],
     queryFn: () => {
       let dog = idToDog([dogId]);
-      if (typeof dog != typeof Dog) {
-        console.error(
-          "ERROR [matchRequest > idToDog] returned non-Dog type from id: ",
-          dogId
-        );
-      } else {
-        return dog;
-      }
+      //   if (typeof dog != typeof Dog) {
+      //     console.error(
+      //       "ERROR [matchRequest > idToDog] returned non-Dog type from id: ",
+      //       dogId
+      //     );
+      //   } else {
+      return dog;
+      //   }
     },
   });
 
@@ -46,7 +47,7 @@ function DogCard({
     return <p>Error!</p>;
   }
 
-  if (dog && typeof dog == typeof Dog) {
+  if (dog) {
     return (
       <Card
         elevation={selected ? 8 : 2}

@@ -1,12 +1,18 @@
-class Dog {
+type User = {
+  name: string;
+  email: string;
+};
+type Dog = {
   id: string;
   img: string;
   name: string;
   age: number;
   zip_code: string;
   breed: string;
-}
-
+};
+type Match = {
+  match: string;
+};
 interface Location {
   zip_code: string;
   latitude: number;
@@ -15,13 +21,9 @@ interface Location {
   state: string;
   county: string;
 }
-
 interface Coordinates {
   lat: number;
   lon: number;
 }
-interface Match {
-  match: string;
-}
 
-export { Dog, Location, Coordinates, Match };
+export { User, Dog, Match, Location, Coordinates };

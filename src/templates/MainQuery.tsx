@@ -1,7 +1,7 @@
 import "../App.css";
-import { handleFetch } from "../Util";
+import { handleFetch } from "../util";
 import { useQuery } from "react-query";
-import { BASE_URI, SEARCH_ENDPOINT } from "../Util";
+import { BASE_URI, SEARCH_ENDPOINT } from "../util";
 import DogCard from "../components/DogCard";
 import FilterStack from "../components/FilterStack";
 import { Container, Grid, Pagination } from "@mui/material";

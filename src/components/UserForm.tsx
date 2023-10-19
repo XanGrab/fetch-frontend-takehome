@@ -1,7 +1,7 @@
 import { Box, Button, Container, TextField } from "@mui/material";
 import "../App.css";
-import { User } from "../User";
-import { AUTH_ENDPOINT, BASE_URI, handleFetch } from "../Util";
+import { AUTH_ENDPOINT, BASE_URI, handleFetch } from "../util";
+import { User } from "../types/types";
 
 function UserForm({ setUser }: { setUser: (user: User) => void }) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

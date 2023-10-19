@@ -1,4 +1,4 @@
-import { Dog } from "./types";
+import { Dog } from "./types/types";
 
 const BASE_URI = "https://frontend-take-home-service.fetch.com";
 const AUTH_ENDPOINT = "/auth/login";

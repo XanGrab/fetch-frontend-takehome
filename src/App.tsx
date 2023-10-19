@@ -1,8 +1,6 @@
 import "./App.css";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { LOGOUT_ENDPOINT, BASE_URI, handleFetch } from "./Util";
-import { User } from "./User";
 import UserForm from "./components/UserForm";
 import MainQuery from "./templates/MainQuery";
 import {
@@ -15,6 +13,8 @@ import {
   Typography,
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
+import { BASE_URI, LOGOUT_ENDPOINT, handleFetch } from "./util";
+import { User } from "./types/types";
 
 const queryClient = new QueryClient();
 

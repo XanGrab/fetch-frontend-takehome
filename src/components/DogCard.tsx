@@ -7,10 +7,10 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { Dog } from "../types";
+import { Dog } from "../types/types";
 import TempCard from "./TempCard";
 import { useQuery } from "react-query";
-import { FETCH_BASE_URI, handleFetch } from "../Util";
+import { BASE_URI, handleFetch } from "../util";
 import { useState } from "react";
 
 /**
@@ -36,7 +36,7 @@ async function idToDog({ queryKey }: { queryKey: any }) {
     redirect: "follow",
     credentials: "include",
   };
-  const request = new Request(FETCH_BASE_URI + "/dogs", requestOptions);
+  const request = new Request(BASE_URI + "/dogs", requestOptions);
 
   let dog: Dog | null = null;
   try {

@@ -1,9 +1,9 @@
 import "../App.css";
-import { handleFetch } from "../Util";
+import { handleFetch } from "../util";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useQuery } from "react-query";
-import { FETCH_BASE_URI, BREEDS_URI, SEARCH_URI } from "../Util";
+import { BASE_URI, BREEDS_ENDPOINT, SEARCH_ENDPOINT } from "../util";
 import DogCard from "../components/DogCard";
 import { Box, Container, Grid, Pagination } from "@mui/material";
 import TempCard from "../components/TempCard";
@@ -25,7 +25,7 @@ export async function fetchDogBreeds() {
     credentials: "include",
   };
 
-  const request = new Request(FETCH_BASE_URI + BREEDS_URI, requestConfig);
+  const request = new Request(BASE_URI + BREEDS_ENDPOINT, requestConfig);
   let response = await handleFetch(request);
   let raw = await response?.text();
   return JSON.parse(raw as string);
@@ -51,10 +51,10 @@ export async function fetchDogIds({ queryKey }: { queryKey: any }) {
 
   console.log(
     "DEBUG [MainQuery > URL built]: ",
-    FETCH_BASE_URI + SEARCH_URI + params.toString()
+    BASE_URI + SEARCH_ENDPOINT + params.toString()
   );
   const request = new Request(
-    FETCH_BASE_URI + SEARCH_URI + params.toString(),
+    BASE_URI + SEARCH_ENDPOINT + params.toString(),
     requestConfig
   );
   let response = await handleFetch(request);

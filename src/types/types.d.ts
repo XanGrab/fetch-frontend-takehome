@@ -26,4 +26,4 @@ interface Coordinates {
   lon: number;
 }
 
-export { Dog, Match, Location, Coordinates };
+export { User, Dog, Match, Location, Coordinates };

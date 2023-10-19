@@ -1,7 +1,7 @@
 import { Box, Button, Container, TextField } from "@mui/material";
 import "../App.css";
-import { User } from "../User";
-import { FETCH_AUTH_ENDPOINT, FETCH_BASE_URI, handleFetch } from "../Util";
+import { AUTH_ENDPOINT, BASE_URI, handleFetch } from "../util";
+import { User } from "../types/types";
 
 function UserForm({ setUser }: { setUser: (user: User) => void }) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -72,7 +72,7 @@ async function authUser(form: FormData) {
     credentials: "include",
   };
 
-  let input = FETCH_BASE_URI + FETCH_AUTH_ENDPOINT;
+  let input = BASE_URI + AUTH_ENDPOINT;
   const request = new Request(input, config);
 
   try {

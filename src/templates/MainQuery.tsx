@@ -5,11 +5,12 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { useQuery } from "react-query";
 import { FETCH_BASE_URI, BREEDS_URI, SEARCH_URI } from "../Util";
 import DogCard from "../components/DogCard";
-import { Container, Grid, Pagination } from "@mui/material";
+import { Box, Container, Grid, Pagination } from "@mui/material";
 import TempCard from "../components/TempCard";
 import { useState } from "react";
 import React from "react";
 import { keepPreviousData } from "@tanstack/react-query";
+import { Pets } from "@mui/icons-material";
 
 const resultsPerPage = 16;
 
@@ -177,13 +178,23 @@ function BreedComboBox({
         }}
         sx={{ width: 500 }}
         renderInput={(params) => (
-          <TextField
-            {...params}
-            label="BREED"
-            sx={{
-              fontWeight: "bold",
-            }}
-          />
+          <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+            <Pets
+              fontSize="large"
+              sx={{
+                color: "action.active",
+                mr: 6,
+                my: 6,
+              }}
+            />
+            <TextField
+              {...params}
+              label="BREED"
+              sx={{
+                fontWeight: "bold",
+              }}
+            />
+          </Box>
         )}
       />
     </>

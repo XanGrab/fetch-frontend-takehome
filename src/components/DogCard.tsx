@@ -5,6 +5,7 @@ import {
   CardContent,
   CardMedia,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
 import { Dog } from "../types";
@@ -12,6 +13,7 @@ import TempCard from "./TempCard";
 import { useQuery } from "react-query";
 import { FETCH_BASE_URI, handleFetch } from "../Util";
 import { useState } from "react";
+import { FavoriteBorderRounded, FavoriteRounded } from "@mui/icons-material";
 
 /**
  *
@@ -78,13 +80,15 @@ function DogCard({
       <Card
         elevation={selected ? 8 : 2}
         sx={{
+          margin: 4,
           maxWidth: 345,
+          width: 240,
           height: "100%",
           display: "flex",
           flexDirection: "column",
         }}
       >
-        <Grid item key={dog.id} xs={12} sm={6} md={4}>
+        <Grid item key={dog.id} xs={12} sm={4}>
           <CardMedia
             sx={{ width: 240, height: 140 }}
             image={dog.img}
@@ -103,7 +107,7 @@ function DogCard({
           </CardContent>
         </Grid>
         <CardActions>
-          <Button
+          <IconButton
             size="small"
             onClick={() => {
               setSelected(!selected);
@@ -118,8 +122,12 @@ function DogCard({
               }
             }}
           >
-            Select
-          </Button>
+            {selected ? (
+              <FavoriteRounded fontSize="medium" />
+            ) : (
+              <FavoriteBorderRounded fontSize="medium" />
+            )}
+          </IconButton>
         </CardActions>
       </Card>
     );

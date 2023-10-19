@@ -7,6 +7,7 @@ import UserForm from "./components/UserForm";
 import MainQuery from "./templates/MainQuery";
 import {
   AppBar,
+  Container,
   CssBaseline,
   IconButton,
   Menu,
@@ -80,7 +81,6 @@ function App() {
         </Toolbar>
       </AppBar>
       <br />
-      {/* <Container maxWidth="xl"> */}
       {authUser ? (
         <QueryClientProvider client={queryClient}>
           <MainQuery />
@@ -88,7 +88,6 @@ function App() {
       ) : (
         <UserForm setUser={setAuthUser} />
       )}
-      {/* </Container> */}
     </>
   );
 }

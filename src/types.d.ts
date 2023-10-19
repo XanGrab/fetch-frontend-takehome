@@ -35,4 +35,4 @@ interface Match {
   match: string;
 }
 
-export { Dog, SearchParams, Location, Coordinates, Match };
+export { Dog, Location, Coordinates, Match };

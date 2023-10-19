@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -11,47 +10,9 @@ import {
 import { Dog } from "../types";
 import TempCard from "./TempCard";
 import { useQuery } from "react-query";
-import { FETCH_BASE_URI, handleFetch } from "../Util";
+import { idToDog } from "../Util";
 import { useState } from "react";
 import { FavoriteBorderRounded, FavoriteRounded } from "@mui/icons-material";
-
-/**
- *
- * @param ids an array of dog ids, trimmed to the first 100 Ids
- * @returns An
- */
-async function idToDog({ queryKey }: { queryKey: any }) {
-  let [_key, ids] = queryKey;
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Cookie", document.cookie);
-
-  if (ids.length > 100) {
-    ids = ids.slice(0, 100);
-  }
-  var raw = JSON.stringify(ids);
-
-  var requestOptions: RequestInit = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-    credentials: "include",
-  };
-  const request = new Request(FETCH_BASE_URI + "/dogs", requestOptions);
-
-  let dog: Dog | null = null;
-  try {
-    let response = await handleFetch(request);
-    let res_body = await response?.text();
-    let res_json = JSON.parse(res_body as string);
-    dog = res_json[0];
-
-    return dog;
-  } catch (err) {
-    console.error(err);
-  }
-}
 
 function DogCard({
   dogId,
@@ -63,19 +24,29 @@ function DogCard({
   setSelectedDogs: any;
 }) {
   const [selected, setSelected] = useState(dogId in selectedDogs);
-  const { data: dog, status: dog_status } = useQuery({
-    queryKey: ["dog", [dogId]],
-    queryFn: idToDog,
+  const { data: dog, status } = useQuery({
+    queryKey: ["dog", dogId],
+    queryFn: () => {
+      let dog = idToDog([dogId]);
+      if (typeof dog != typeof Dog) {
+        console.error(
+          "ERROR [matchRequest > idToDog] returned non-Dog type from id: ",
+          dogId
+        );
+      } else {
+        return dog;
+      }
+    },
   });
 
-  if (dog_status === "loading") {
+  if (status === "loading") {
     return <TempCard />;
   }
-  if (dog_status === "error") {
+  if (status === "error") {
     return <p>Error!</p>;
   }
 
-  if (dog) {
+  if (dog && typeof dog == typeof Dog) {
     return (
       <Card
         elevation={selected ? 8 : 2}

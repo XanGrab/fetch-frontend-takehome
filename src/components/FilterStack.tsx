@@ -178,4 +178,4 @@ function FilterStack({
   );
 }
 
-export { FilterStack };
+export default FilterStack;

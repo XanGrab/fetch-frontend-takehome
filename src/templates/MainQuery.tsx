@@ -3,12 +3,12 @@ import { handleFetch } from "../Util";
 import { useQuery } from "react-query";
 import { BASE_URI, SEARCH_ENDPOINT } from "../Util";
 import DogCard from "../components/DogCard";
-import { Container, Grid, Pagination, Stack } from "@mui/material";
+import FilterStack from "../components/FilterStack";
+import { Container, Grid, Pagination } from "@mui/material";
 import TempCard from "../components/TempCard";
 import { useEffect, useState } from "react";
 import React from "react";
 import { keepPreviousData } from "@tanstack/react-query";
-import { FilterStack } from "../components/FilterStack";
 
 const resultsPerPage = 16;
 
@@ -84,8 +84,14 @@ function MainQuery() {
   // TODO make dog card grid update locally on state change
   // issue lies in the URLSearchParams as a state object
   return (
-    <Container>
-      <Grid container spacing={2}>
+    <Container
+      sx={
+        {
+          // width: "1980px",
+        }
+      }
+    >
+      <Grid container spacing={20}>
         <Grid item xs={3}>
           <FilterStack
             params={queryParams}

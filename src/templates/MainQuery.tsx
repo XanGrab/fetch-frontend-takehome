@@ -5,11 +5,11 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { useQuery } from "react-query";
 import { FETCH_BASE_URI, BREEDS_URI, SEARCH_URI } from "../Util";
 import DogCard from "../components/DogCard";
-import { Container, Grid, Pagination, Typography } from "@mui/material";
+import { Container, Grid, Pagination } from "@mui/material";
 import TempCard from "../components/TempCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
-import { QueryKey, keepPreviousData } from "@tanstack/react-query";
+import { keepPreviousData } from "@tanstack/react-query";
 
 const resultsPerPage = 16;
 
@@ -37,7 +37,7 @@ export async function fetchDogBreeds() {
  */
 //TODO explicit type saftey
 export async function fetchDogIds({ queryKey }: { queryKey: any }) {
-  let [_key, params] = queryKey;
+  let [_key, params]: [_key: string, params: URLSearchParams] = queryKey;
   let getHeader = new Headers();
   getHeader.append("Content-Type", "application/json");
   getHeader.append("Cookie", document.cookie);
@@ -49,7 +49,6 @@ export async function fetchDogIds({ queryKey }: { queryKey: any }) {
     credentials: "include",
   };
 
-  console.dir("DEBUG [MainQuery]: ", params);
   console.log(
     "DEBUG [MainQuery > URL built]: ",
     FETCH_BASE_URI + SEARCH_URI + params.toString()
@@ -67,27 +66,83 @@ function MainQuery() {
   const [queryParams, setQueryParams] = useState<URLSearchParams>(
     new URLSearchParams({ from: "0", size: "" + resultsPerPage })
   );
+  const [page, setPage] = useState(1);
+  const [selectedDogs, setSelectedDogs] = useState<Array<string>>([]);
+
+  function handlePageChange(_event: React.ChangeEvent<any>, newPage: number) {
+    console.log("DEBUG [MainQuery > handlePageChange] newPage", newPage);
+    setPage(newPage);
+
+    queryParams.set("from", "" + resultsPerPage * (newPage - 1));
+    setQueryParams(queryParams);
+    refetch();
+  }
+
+  const { data: ids, refetch } = useQuery({
+    queryKey: ["dogs", queryParams],
+    queryFn: fetchDogIds,
+    placeholderData: keepPreviousData,
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [queryParams]);
+
+  //TODO make dog card grid update on state change
+  console.log("DEBUG [MainQuery] queryParams:", queryParams);
   return (
     <Container
       sx={{
         width: "1980px",
       }}
     >
-      <BreedComboBox setParams={setQueryParams} />
+      <BreedComboBox
+        params={queryParams}
+        setParams={setQueryParams}
+        refetch={refetch}
+      />
       <br />
-      <DogCardGrid queryParams={queryParams} />
+      {ids ? (
+        <DogCardGrid
+          resultIds={ids.resultIds}
+          selectedDogs={selectedDogs}
+          setSelectedDogs={setSelectedDogs}
+        />
+      ) : (
+        <TempCard />
+      )}
+      {ids ? (
+        <Pagination
+          count={ids.total / resultsPerPage}
+          color="primary"
+          page={page}
+          onChange={handlePageChange}
+          size="large"
+        />
+      ) : (
+        <></>
+      )}
     </Container>
   );
 }
 
-function BreedComboBox({ setParams }: { setParams: any }) {
+function BreedComboBox({
+  params,
+  setParams,
+  refetch,
+}: {
+  params: URLSearchParams;
+  setParams: any;
+  refetch: any;
+}) {
   const { data: breeds, status: breed_status } = useQuery({
     queryKey: ["breeds"],
     queryFn: fetchDogBreeds,
+    refetchOnWindowFocus: false,
   });
 
   if (breed_status === "loading") {
-    //TODO could be loading bar
+    //TODO could be Skeleton
     return <p>Loading...</p>;
   }
   if (breed_status === "error") {
@@ -101,6 +156,20 @@ function BreedComboBox({ setParams }: { setParams: any }) {
         multiple
         id="combo-box-demo"
         options={breeds}
+        onChange={(_event, breeds) => {
+          params.delete("breeds");
+          setParams(params); // remove old breed params
+          for (const breed of breeds) {
+            // Iterate over this ComboBox and add all the breeds as queryParams if they do not exsist already
+            params.append("breeds", breed as string);
+            setParams(params);
+          }
+          console.dir(
+            "DEBUG [MainQuery > BreedComboBox > onChange] params:",
+            params
+          );
+          refetch();
+        }}
         sx={{ width: 500 }}
         renderInput={(params) => (
           <TextField
@@ -116,51 +185,29 @@ function BreedComboBox({ setParams }: { setParams: any }) {
   );
 }
 
-function DogCardGrid({ queryParams }: { queryParams: URLSearchParams }) {
-  const [page, setPage] = React.useState(0);
-  const {
-    data: ids,
-    refetch,
-    status: ids_status,
-  } = useQuery({
-    queryKey: ["dogs", queryParams],
-    queryFn: fetchDogIds,
-    placeholderData: keepPreviousData,
-  });
-
-  if (ids_status === "loading") {
-    return <TempCard />;
-  }
-  if (ids_status === "error") {
-    return <p>Error!</p>;
-  }
-
-  function handlePageChange(event: React.ChangeEvent<any>, page: number) {
-    console.log("DEBUG [MainQuery > handlePageChange]");
-    setPage(page);
-    queryParams.set("from", "" + resultsPerPage * page);
-    refetch();
-  }
-
-  console.log("DEBUG [MainQuery > ids]: ", ids);
+function DogCardGrid({
+  resultIds,
+  selectedDogs,
+  setSelectedDogs,
+}: {
+  resultIds: Array<string>; // currently displayed dogs
+  selectedDogs: Array<string>; // currently selected dogs
+  setSelectedDogs: any;
+}) {
+  console.log("DEBUG [DogCardGrid] ids:", resultIds);
   return (
     <Container sx={{ py: 8 }}>
       <Grid container spacing={2}>
-        {ids.resultIds.map((id: string) => (
-          <DogCard key={id} dogId={id} />
+        {resultIds.map((id: string) => (
+          <DogCard
+            key={id}
+            dogId={id}
+            selectedDogs={selectedDogs}
+            setSelectedDogs={setSelectedDogs}
+          />
         ))}
       </Grid>
       <br />
-      {ids_status ? (
-        <Pagination
-          count={ids.total / resultsPerPage}
-          color="primary"
-          onChange={handlePageChange}
-          size="large"
-        />
-      ) : (
-        <Pagination disabled />
-      )}
     </Container>
   );
 }

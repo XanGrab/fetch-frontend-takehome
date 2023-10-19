@@ -11,6 +11,7 @@ import { Dog } from "../types";
 import TempCard from "./TempCard";
 import { useQuery } from "react-query";
 import { FETCH_BASE_URI, handleFetch } from "../Util";
+import { useState } from "react";
 
 /**
  *
@@ -50,7 +51,16 @@ async function idToDog({ queryKey }: { queryKey: any }) {
   }
 }
 
-function DogCard({ dogId }: { dogId: string }) {
+function DogCard({
+  dogId,
+  selectedDogs,
+  setSelectedDogs,
+}: {
+  dogId: string;
+  selectedDogs: Array<string>;
+  setSelectedDogs: any;
+}) {
+  const [selected, setSelected] = useState(dogId in selectedDogs);
   const { data: dog, status: dog_status } = useQuery({
     queryKey: ["dog", [dogId]],
     queryFn: idToDog,
@@ -66,6 +76,7 @@ function DogCard({ dogId }: { dogId: string }) {
   if (dog) {
     return (
       <Card
+        elevation={selected ? 6 : 2}
         sx={{
           maxWidth: 345,
           height: "100%",
@@ -95,7 +106,17 @@ function DogCard({ dogId }: { dogId: string }) {
           <Button
             size="small"
             onClick={() => {
-              console.dir("DEBUG [DogCard]:", dog);
+              setSelected(!selected);
+              if (!selected) {
+                setSelectedDogs([...selectedDogs, dog.id]);
+              } else {
+                setSelectedDogs(
+                  selectedDogs.filter((id) => {
+                    return id !== dog.id;
+                  })
+                );
+              }
+              //   console.dir("DEBUG [DogCard] selected ", selectedDogs);
             }}
           >
             Select

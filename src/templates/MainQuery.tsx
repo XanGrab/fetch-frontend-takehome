@@ -1,7 +1,7 @@
 import "../App.css";
 import { handleFetch } from "../Util";
 import { useQuery } from "react-query";
-import { FETCH_BASE_URI, SEARCH_URI } from "../Util";
+import { BASE_URI, SEARCH_ENDPOINT } from "../Util";
 import DogCard from "../components/DogCard";
 import { Container, Grid, Pagination, Stack } from "@mui/material";
 import TempCard from "../components/TempCard";
@@ -32,10 +32,10 @@ export async function fetchDogIds({ queryKey }: { queryKey: any }) {
 
   console.log(
     "DEBUG [MainQuery > URL built]: ",
-    FETCH_BASE_URI + SEARCH_URI + params.toString()
+    BASE_URI + SEARCH_ENDPOINT + params.toString()
   );
   const request = new Request(
-    FETCH_BASE_URI + SEARCH_URI + params.toString(),
+    BASE_URI + SEARCH_ENDPOINT + params.toString(),
     requestConfig
   );
   let response = await handleFetch(request);
@@ -84,18 +84,13 @@ function MainQuery() {
   // TODO make dog card grid update locally on state change
   // issue lies in the URLSearchParams as a state object
   return (
-    <Container
-      sx={
-        {
-          // width: "1980px",
-        }
-      }
-    >
-      <Grid container spacing={20}>
+    <Container>
+      <Grid container spacing={2}>
         <Grid item xs={3}>
           <FilterStack
             params={queryParams}
             setParams={setQueryParams}
+            selectedDogs={selectedDogs}
             refetch={refetch}
           />
         </Grid>

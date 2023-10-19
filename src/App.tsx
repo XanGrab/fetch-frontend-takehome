@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { FETCH_LOGOUT_ENDPOINT, FETCH_BASE_URI, handleFetch } from "./Util";
+import { LOGOUT_ENDPOINT, BASE_URI, handleFetch } from "./Util";
 import { User } from "./User";
 import UserForm from "./components/UserForm";
 import MainQuery from "./templates/MainQuery";
@@ -80,7 +80,6 @@ function App() {
           )}
         </Toolbar>
       </AppBar>
-      <br />
       {authUser ? (
         <QueryClientProvider client={queryClient}>
           <MainQuery />
@@ -104,7 +103,7 @@ async function logoutUser() {
     credentials: "include",
   };
 
-  let input = FETCH_BASE_URI + FETCH_LOGOUT_ENDPOINT;
+  let input = BASE_URI + LOGOUT_ENDPOINT;
   const request = new Request(input, config);
 
   try {

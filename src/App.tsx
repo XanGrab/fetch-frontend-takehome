@@ -1,8 +1,6 @@
 import "./App.css";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { User } from "./types/types";
-import { LOGOUT_ENDPOINT, BASE_URI, handleFetch } from "./util";
 import UserForm from "./components/UserForm";
 import MainQuery from "./templates/MainQuery";
 import {
@@ -15,6 +13,8 @@ import {
   Typography,
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
+import { BASE_URI, LOGOUT_ENDPOINT, handleFetch } from "./util";
+import { User } from "./types/types";
 
 const queryClient = new QueryClient();
 
@@ -79,8 +79,6 @@ function App() {
           )}
         </Toolbar>
       </AppBar>
-      <br />
-      {/* <Container maxWidth="xl"> */}
       {authUser ? (
         <QueryClientProvider client={queryClient}>
           <MainQuery />
@@ -88,7 +86,6 @@ function App() {
       ) : (
         <UserForm setUser={setAuthUser} />
       )}
-      {/* </Container> */}
     </>
   );
 }

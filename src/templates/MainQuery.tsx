@@ -7,7 +7,7 @@ import { FETCH_BASE_URI, BREEDS_URI, SEARCH_URI } from "../Util";
 import DogCard from "../components/DogCard";
 import { Container, Grid, Pagination } from "@mui/material";
 import TempCard from "../components/TempCard";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import React from "react";
 import { keepPreviousData } from "@tanstack/react-query";
 

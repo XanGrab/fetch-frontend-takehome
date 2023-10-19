@@ -8,8 +8,7 @@ function UserForm({ setUser }: { setUser: (user: User) => void }) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    console.log("DEBUG [UserForm > handleSubmit] data:", data);
-
+    // console.log("DEBUG [UserForm > handleSubmit] data:", data);
     let response = await authUser(data);
     if (response?.ok) {
       setUser({
@@ -22,7 +21,7 @@ function UserForm({ setUser }: { setUser: (user: User) => void }) {
   return (
     <Container component="main" maxWidth="xs">
       <h2>Fetch your perfect match!</h2>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required

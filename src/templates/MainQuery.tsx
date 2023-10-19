@@ -72,11 +72,15 @@ function MainQuery() {
     console.log("DEBUG [MainQuery > handlePageChange] newPage", newPage);
     setPage(newPage);
 
+    /* TODO Having URLSearchParams as state may have been a bad idea
+    having issues with local testing */
+    // https://reactrouter.com/en/main/hooks/use-search-params
     // let newParams = new URLSearchParams();
     // for (const [key, value] of queryParams) {
     //   newParams.append(key, value);
     // }
     // newParams.set("from", "" + resultsPerPage * (newPage - 1));
+
     queryParams.set("from", "" + resultsPerPage * (newPage - 1));
     setQueryParams(queryParams);
     refetch();
@@ -96,6 +100,7 @@ function MainQuery() {
         width: "1980px",
       }}
     >
+      <br />
       <BreedComboBox
         params={queryParams}
         setParams={setQueryParams}

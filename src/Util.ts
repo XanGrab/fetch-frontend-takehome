@@ -1,5 +1,6 @@
 const FETCH_BASE_URI = "https://frontend-take-home-service.fetch.com";
 const FETCH_AUTH_ENDPOINT = "/auth/login";
+const FETCH_LOGOUT_ENDPOINT = "/auth/login";
 const BREEDS_URI = "/dogs/breeds";
 const SEARCH_URI = "/dogs/search?";
 
@@ -19,6 +20,7 @@ async function handleFetch(req: Request) {
 export {
   FETCH_BASE_URI,
   FETCH_AUTH_ENDPOINT,
+  FETCH_LOGOUT_ENDPOINT,
   BREEDS_URI,
   SEARCH_URI,
   handleFetch,

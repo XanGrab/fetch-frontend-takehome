@@ -57,15 +57,15 @@ function DogCard({
             image={dog.img}
             title={dog.name}
           />
-          <CardContent>
-            <Typography variant="body2" color="text.secondary">
-              {dog.breed}
+          <CardContent sx={{ width: 240 }}>
+            <Typography variant="inherit" color="text.primary">
+              Name: {dog.name}
+            </Typography>
+            <Typography variant="inherit" color="text.secondary">
+              Breed: {dog.breed}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {dog.age}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {dog.zip_code}
+              Age: {dog.age}
             </Typography>
           </CardContent>
         </Grid>

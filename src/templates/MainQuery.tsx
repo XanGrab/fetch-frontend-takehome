@@ -4,14 +4,7 @@ import { useQuery } from "react-query";
 import { BASE_URI, SEARCH_ENDPOINT } from "../util";
 import DogCard from "../components/DogCard";
 import FilterStack from "../components/FilterStack";
-import {
-  Card,
-  Container,
-  Grid,
-  Modal,
-  Pagination,
-  Typography,
-} from "@mui/material";
+import { Container, Grid, Modal, Pagination, Typography } from "@mui/material";
 import TempCard from "../components/TempCard";
 import { useEffect, useState } from "react";
 import React from "react";
@@ -96,10 +89,8 @@ function MainQuery() {
             }}
           >
             <Grid>
-              {/* <Card elevation={6} xs={3}> */}
               <Grid item xs={3}>
                 <Typography>matchedDog.name</Typography>
-                {/* </Card> */}
               </Grid>
             </Grid>
           </Modal>

@@ -21,7 +21,7 @@ function UserForm({ setUser }: { setUser: (user: User) => void }) {
 
   return (
     <Container component="main" maxWidth="xs">
-      <h2>Login</h2>
+      <h2>Fetch your perfect match!</h2>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"

@@ -5,7 +5,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { useQuery } from "react-query";
 import { FETCH_BASE_URI, BREEDS_URI, SEARCH_URI } from "../Util";
 import DogCard from "../components/DogCard";
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import TempCard from "../components/TempCard";
 import { useState } from "react";
 
@@ -61,18 +61,22 @@ export async function fetchDogIds({ queryKey }: { queryKey: any }) {
 
 function MainQuery() {
   const [queryParams, setQueryParams] = useState<URLSearchParams>(
-    new URLSearchParams({ size: "16", from: "0" })
+    new URLSearchParams({ from: "0", size: "16" })
   );
   return (
-    <>
-      <BreedComboBox />
+    <Container
+      sx={{
+        width: "1980px",
+      }}
+    >
+      <BreedComboBox setParams={setQueryParams} />
       <br />
       <DogCardGrid queryParams={queryParams} />
-    </>
+    </Container>
   );
 }
 
-function BreedComboBox() {
+function BreedComboBox({ setParams }: { setParams: any }) {
   const { data: breeds, status: breed_status } = useQuery({
     queryKey: ["breeds"],
     queryFn: fetchDogBreeds,
@@ -94,7 +98,15 @@ function BreedComboBox() {
         id="combo-box-demo"
         options={breeds}
         sx={{ width: 500 }}
-        renderInput={(params) => <TextField {...params} label="Breeds" />}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="BREED"
+            sx={{
+              fontWeight: "bold",
+            }}
+          />
+        )}
       />
     </>
   );
@@ -107,8 +119,7 @@ function DogCardGrid({ queryParams }: { queryParams: URLSearchParams }) {
   });
 
   if (ids_status === "loading") {
-    //TODO could be Skeleton
-    return <p>Loading...</p>;
+    return <TempCard />;
   }
   if (ids_status === "error") {
     return <p>Error!</p>;
@@ -116,15 +127,11 @@ function DogCardGrid({ queryParams }: { queryParams: URLSearchParams }) {
 
   console.log("DEBUG [MainQuery > ids]: ", ids);
   return (
-    <Container sx={{ py: 8 }} maxWidth="md">
-      <Grid container spacing={4}>
-        {ids.resultIds
-          ? ids.resultIds.map((id: string) => {
-              <DogCard key={id} dogId={id} />;
-            })
-          : [...Array(queryParams.size)].map((_, i) => {
-              <TempCard key={i} />;
-            })}
+    <Container sx={{ py: 8 }}>
+      <Grid container spacing={2}>
+        {ids.resultIds.map((id: string) => (
+          <DogCard key={id} dogId={id} />
+        ))}
       </Grid>
     </Container>
   );

@@ -12,8 +12,6 @@ import TempCard from "./TempCard";
 import { useQuery } from "react-query";
 import { useState } from "react";
 import { FavoriteBorderRounded, FavoriteRounded } from "@mui/icons-material";
-// TODO broken import statement
-// import { Dog } from "../types/types";
 
 function DogCard({
   dogId,
@@ -29,14 +27,7 @@ function DogCard({
     queryKey: ["dog", dogId],
     queryFn: () => {
       let dog = idToDog([dogId]);
-      //   if (typeof dog != typeof Dog) {
-      //     console.error(
-      //       "ERROR [matchRequest > idToDog] returned non-Dog type from id: ",
-      //       dogId
-      //     );
-      //   } else {
       return dog;
-      //   }
     },
   });
 
@@ -79,27 +70,29 @@ function DogCard({
           </CardContent>
         </Grid>
         <CardActions>
-          <IconButton
-            size="small"
-            onClick={() => {
-              setSelected(!selected);
-              if (dog.id in selectedDogs) {
-                setSelectedDogs(
-                  selectedDogs.filter((id) => {
+          {setSelectedDogs && (
+            <IconButton
+              size="small"
+              onClick={() => {
+                setSelected(!selected);
+                if (dog.id in selectedDogs) {
+                  let temp = [...selectedDogs];
+                  temp.filter((id) => {
                     return id !== dog.id;
-                  })
-                );
-              } else {
-                setSelectedDogs([...selectedDogs, dog.id]);
-              }
-            }}
-          >
-            {selected ? (
-              <FavoriteRounded fontSize="medium" />
-            ) : (
-              <FavoriteBorderRounded fontSize="medium" />
-            )}
-          </IconButton>
+                  });
+                  setSelectedDogs(temp);
+                } else {
+                  setSelectedDogs([...selectedDogs, dog.id]);
+                }
+              }}
+            >
+              {selected ? (
+                <FavoriteRounded fontSize="medium" />
+              ) : (
+                <FavoriteBorderRounded fontSize="medium" />
+              )}
+            </IconButton>
+          )}
         </CardActions>
       </Card>
     );

@@ -1,4 +1,3 @@
-import { Pets, SearchRounded } from "@mui/icons-material";
 import {
   Autocomplete,
   Box,
@@ -7,6 +6,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import { Pets, SearchRounded } from "@mui/icons-material";
 import { useQuery } from "react-query";
 import {
   BASE_URI,
@@ -15,8 +15,6 @@ import {
   handleFetch,
   idToDog,
 } from "../util";
-// TODO broken import
-// import { Dog } from "../types/types";
 
 export async function fetchDogBreeds() {
   let getHeader = new Headers();
@@ -145,8 +143,8 @@ async function matchRequest(ids: string[]) {
     console.error(err);
   }
 
-  //TODO create pop up
   console.dir("DEBUG [FilterStack > matchRequest] matched with: ", dog);
+  return dog;
 }
 
 //TODO function type safety
@@ -155,11 +153,13 @@ function FilterStack({
   setParams,
   refetch,
   selectedDogs,
+  setMatch,
 }: {
   params: URLSearchParams;
   setParams: any;
   refetch: any;
   selectedDogs: string[];
+  setMatch: any;
 }) {
   return (
     <Stack direction="row">
@@ -168,7 +168,8 @@ function FilterStack({
         variant="contained"
         endIcon={<SearchRounded />}
         onClick={() => {
-          matchRequest(selectedDogs);
+          let matchedDog = matchRequest(selectedDogs);
+          setMatch(matchedDog);
         }}
         sx={{
           marginY: 16,

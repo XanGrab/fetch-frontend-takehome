@@ -4,11 +4,20 @@ import { useQuery } from "react-query";
 import { BASE_URI, SEARCH_ENDPOINT } from "../util";
 import DogCard from "../components/DogCard";
 import FilterStack from "../components/FilterStack";
-import { Container, Grid, Pagination } from "@mui/material";
+import {
+  Card,
+  Container,
+  Grid,
+  Modal,
+  Pagination,
+  Typography,
+} from "@mui/material";
 import TempCard from "../components/TempCard";
 import { useEffect, useState } from "react";
 import React from "react";
 import { keepPreviousData } from "@tanstack/react-query";
+import Confetti from "react-confetti";
+import { Dog } from "../types/types";
 
 const resultsPerPage = 16;
 
@@ -48,6 +57,7 @@ function MainQuery() {
     new URLSearchParams({ from: "0", size: "" + resultsPerPage })
   );
   const [page, setPage] = useState(1);
+  const [matchedDog, setMatchedDog] = useState<Dog | null>(null);
   const [selectedDogs, setSelectedDogs] = useState<Array<string>>([]);
 
   useEffect(() => {
@@ -60,15 +70,6 @@ function MainQuery() {
   function handlePageChange(_event: React.ChangeEvent<any>, newPage: number) {
     console.log("DEBUG [MainQuery > handlePageChange] newPage", newPage);
     setPage(newPage);
-
-    /* TODO Having URLSearchParams as state may have been a bad idea
-    having issues with local testing */
-    // https://reactrouter.com/en/main/hooks/use-search-params
-    // let newParams = new URLSearchParams();
-    // for (const [key, value] of queryParams) {
-    //   newParams.append(key, value);
-    // }
-    // newParams.set("from", "" + resultsPerPage * (newPage - 1));
 
     queryParams.set("from", "" + resultsPerPage * (newPage - 1));
     setQueryParams(queryParams);
@@ -85,12 +86,32 @@ function MainQuery() {
   // issue lies in the URLSearchParams as a state object
   return (
     <Container>
+      {matchedDog && (
+        <>
+          <Confetti />
+          <Modal
+            open={Boolean(matchedDog)}
+            onClose={() => {
+              setMatchedDog(null);
+            }}
+          >
+            <Grid>
+              {/* <Card elevation={6} xs={3}> */}
+              <Grid item xs={3}>
+                <Typography>matchedDog.name</Typography>
+                {/* </Card> */}
+              </Grid>
+            </Grid>
+          </Modal>
+        </>
+      )}
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <FilterStack
             params={queryParams}
             setParams={setQueryParams}
             selectedDogs={selectedDogs}
+            setMatch={setMatchedDog}
             refetch={refetch}
           />
         </Grid>
@@ -130,7 +151,7 @@ function DogCardGrid({
   selectedDogs: Array<string>; // currently selected dogs
   setSelectedDogs: any;
 }) {
-  console.log("DEBUG [DogCardGrid] ids:", queryResponse);
+  //   console.log("DEBUG [DogCardGrid] ids:", queryResponse);
   return (
     <Container>
       <Grid container spacing={4}>

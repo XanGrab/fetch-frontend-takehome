@@ -35,7 +35,12 @@ async function idToDog(ids: string[]) {
     let response = await handleFetch(request);
     let res_body = await response?.text();
     let res_json = JSON.parse(res_body as string);
-    dog = res_json[0];
+    dog = res_json[0] as Dog;
+    if (typeof dog === undefined) {
+      throw new Error(
+        "ERROR [util > idToDog] returning non-Dog type" + res_body
+      );
+    }
 
     return dog;
   } catch (err) {

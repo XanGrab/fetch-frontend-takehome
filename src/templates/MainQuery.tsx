@@ -84,14 +84,8 @@ function MainQuery() {
   // TODO make dog card grid update locally on state change
   // issue lies in the URLSearchParams as a state object
   return (
-    <Container
-      sx={
-        {
-          // width: "1980px",
-        }
-      }
-    >
-      <Grid container spacing={20}>
+    <Container>
+      <Grid container spacing={2}>
         <Grid item xs={3}>
           <FilterStack
             params={queryParams}

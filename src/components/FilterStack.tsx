@@ -8,14 +8,14 @@ import {
   TextField,
 } from "@mui/material";
 import { useQuery } from "react-query";
+import { Dog } from "../types";
 import {
-  BREEDS_ENDPOINT,
   BASE_URI,
-  handleFetch,
+  BREEDS_ENDPOINT,
   MATCH_ENDPOINT,
+  handleFetch,
   idToDog,
 } from "../Util";
-import { Dog } from "../types";
 
 export async function fetchDogBreeds() {
   let getHeader = new Headers();

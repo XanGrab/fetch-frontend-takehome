@@ -7,17 +7,6 @@ class Dog {
   breed: string;
 }
 
-// Needs function to convert to URL search params
-// interface SearchParams {
-//   breeds?: Array<string>;
-//   zipCodes?: Array<string>;
-//   ageMin?: int;
-//   ageMax?: int;
-//   size: int;
-//   from?: int;
-//   sort?: "field:[asc]" | "field[desc]";
-// }
-
 interface Location {
   zip_code: string;
   latitude: number;

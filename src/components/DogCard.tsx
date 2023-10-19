@@ -1,55 +1,19 @@
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
   CardMedia,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
-import { Dog } from "../types/types";
+import { idToDog } from "../util";
 import TempCard from "./TempCard";
 import { useQuery } from "react-query";
-import { BASE_URI, handleFetch } from "../util";
 import { useState } from "react";
-
-/**
- *
- * @param ids an array of dog ids, trimmed to the first 100 Ids
- * @returns An
- */
-async function idToDog({ queryKey }: { queryKey: any }) {
-  let [_key, ids] = queryKey;
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Cookie", document.cookie);
-
-  if (ids.length > 100) {
-    ids = ids.slice(0, 100);
-  }
-  var raw = JSON.stringify(ids);
-
-  var requestOptions: RequestInit = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-    credentials: "include",
-  };
-  const request = new Request(BASE_URI + "/dogs", requestOptions);
-
-  let dog: Dog | null = null;
-  try {
-    let response = await handleFetch(request);
-    let res_body = await response?.text();
-    let res_json = JSON.parse(res_body as string);
-    dog = res_json[0];
-
-    return dog;
-  } catch (err) {
-    console.error(err);
-  }
-}
+import { FavoriteBorderRounded, FavoriteRounded } from "@mui/icons-material";
+// TODO broken import statement
+// import { Dog } from "../types/types";
 
 function DogCard({
   dogId,
@@ -61,15 +25,25 @@ function DogCard({
   setSelectedDogs: any;
 }) {
   const [selected, setSelected] = useState(dogId in selectedDogs);
-  const { data: dog, status: dog_status } = useQuery({
-    queryKey: ["dog", [dogId]],
-    queryFn: idToDog,
+  const { data: dog, status } = useQuery({
+    queryKey: ["dog", dogId],
+    queryFn: () => {
+      let dog = idToDog([dogId]);
+      //   if (typeof dog != typeof Dog) {
+      //     console.error(
+      //       "ERROR [matchRequest > idToDog] returned non-Dog type from id: ",
+      //       dogId
+      //     );
+      //   } else {
+      return dog;
+      //   }
+    },
   });
 
-  if (dog_status === "loading") {
+  if (status === "loading") {
     return <TempCard />;
   }
-  if (dog_status === "error") {
+  if (status === "error") {
     return <p>Error!</p>;
   }
 
@@ -78,13 +52,15 @@ function DogCard({
       <Card
         elevation={selected ? 8 : 2}
         sx={{
+          margin: 4,
           maxWidth: 345,
+          width: 240,
           height: "100%",
           display: "flex",
           flexDirection: "column",
         }}
       >
-        <Grid item key={dog.id} xs={12} sm={6} md={4}>
+        <Grid item key={dog.id} xs={12} sm={4}>
           <CardMedia
             sx={{ width: 240, height: 140 }}
             image={dog.img}
@@ -103,7 +79,7 @@ function DogCard({
           </CardContent>
         </Grid>
         <CardActions>
-          <Button
+          <IconButton
             size="small"
             onClick={() => {
               setSelected(!selected);
@@ -118,8 +94,12 @@ function DogCard({
               }
             }}
           >
-            Select
-          </Button>
+            {selected ? (
+              <FavoriteRounded fontSize="medium" />
+            ) : (
+              <FavoriteBorderRounded fontSize="medium" />
+            )}
+          </IconButton>
         </CardActions>
       </Card>
     );

@@ -1,40 +1,35 @@
 import { Box, CardMedia, Modal, Typography } from "@mui/material";
 import { Dog } from "../types/types";
+import TempCard from "./TempCard";
+import { useEffect, useState } from "react";
 
-const modalStyle = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-};
+function DogModal({
+  matchedDog,
+  setMatchedDog,
+}: {
+  matchedDog: Dog;
+  setMatchedDog: any;
+}) {
+  const [dog, setDog] = useState(matchedDog);
+  useEffect(() => {
+    console.dir("DEBUG [DogModal] dog:", dog);
+  }, [dog]);
 
-function DogModal({ dog, setDog }: { dog: Dog; setDog: any }) {
   return (
     <Modal
       open={Boolean(dog)}
       onClose={() => {
-        setDog(null);
+        setMatchedDog(null);
+      }}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <Box sx={modalStyle}>
-        <CardMedia
-          sx={{ width: 240, height: 140 }}
-          image={dog.img}
-          title={dog.name}
-        />
-        <Typography variant="inherit" color="text.primary">
-          Name: {dog.name}
-        </Typography>
-        <Typography variant="inherit" color="text.secondary">
-          Breed: {dog.breed}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Age: {dog.age}
-        </Typography>
+      <Box>
+        <img src="src/assets/dog_emoji.svg" alt="test" />
+        {/* {dog ? <img src={dog.img} alt={dog.name} /> : <TempCard />} */}
       </Box>
     </Modal>
   );

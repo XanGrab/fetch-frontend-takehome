@@ -13,7 +13,7 @@ import Confetti from "react-confetti";
 import { Dog } from "../types/types";
 import DogModal from "../components/DogModal";
 
-const resultsPerPage = 16;
+const resultsPerPage = 18;
 
 /**
  * @param body the query params to be passed to the function
@@ -44,6 +44,33 @@ export async function fetchDogIds({ queryKey }: { queryKey: any }) {
   let response = await handleFetch(request);
   let raw = await response?.text();
   return JSON.parse(raw as string);
+}
+
+function DogCardGrid({
+  queryResponse,
+  selectedDogs,
+  setSelectedDogs,
+}: {
+  queryResponse: any; // currently displayed dogs
+  selectedDogs: Array<string>; // currently selected dogs
+  setSelectedDogs: any;
+}) {
+  //   console.log("DEBUG [DogCardGrid] ids:", queryResponse);
+  return (
+    <Container sx={{ marginTop: 32 }}>
+      <Grid container spacing={4}>
+        {queryResponse.resultIds.map((id: string) => (
+          <DogCard
+            key={id}
+            dogId={id}
+            selectedDogs={selectedDogs}
+            setSelectedDogs={setSelectedDogs}
+          />
+        ))}
+      </Grid>
+      <br />
+    </Container>
+  );
 }
 
 function MainQuery() {
@@ -83,12 +110,12 @@ function MainQuery() {
       {matchedDog ? (
         <>
           <Confetti />
-          <DogModal dog={matchedDog} setDog={setMatchedDog} />
+          <DogModal matchedDog={matchedDog} setMatchedDog={setMatchedDog} />
         </>
       ) : (
         <></>
       )}
-      <Grid container spacing={2}>
+      <Grid container sx={{ display: "flex" }}>
         <Grid item xs={3}>
           <FilterStack
             params={queryParams}
@@ -98,7 +125,7 @@ function MainQuery() {
             refetch={refetch}
           />
         </Grid>
-        <Grid item xs={9} sx={{ margin: 16 }}>
+        <Grid item xs={8} sx={{ margin: 16 }}>
           {data ? (
             <DogCardGrid
               queryResponse={data}
@@ -121,33 +148,6 @@ function MainQuery() {
           )}
         </Grid>
       </Grid>
-    </Container>
-  );
-}
-
-function DogCardGrid({
-  queryResponse,
-  selectedDogs,
-  setSelectedDogs,
-}: {
-  queryResponse: any; // currently displayed dogs
-  selectedDogs: Array<string>; // currently selected dogs
-  setSelectedDogs: any;
-}) {
-  //   console.log("DEBUG [DogCardGrid] ids:", queryResponse);
-  return (
-    <Container>
-      <Grid container spacing={4}>
-        {queryResponse.resultIds.map((id: string) => (
-          <DogCard
-            key={id}
-            dogId={id}
-            selectedDogs={selectedDogs}
-            setSelectedDogs={setSelectedDogs}
-          />
-        ))}
-      </Grid>
-      <br />
     </Container>
   );
 }

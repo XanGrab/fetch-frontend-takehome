@@ -63,7 +63,6 @@ function BreedComboBox({
   return (
     <Container
       sx={{
-        paddingTop: 16,
         margin: 8,
       }}
     >
@@ -85,7 +84,7 @@ function BreedComboBox({
           );
           refetch();
         }}
-        sx={{ width: 280 }}
+        sx={{ width: 280, marginTop: 32 }}
         renderInput={(params) => (
           <Box sx={{ display: "flex", alignItems: "flex-end" }}>
             <Pets
@@ -165,7 +164,6 @@ function FilterStack({
   setMatch: any;
 }) {
   const [sendAlert, setAlertState] = useState(false);
-
   const handleClick = () => {
     if (selectedDogs.length > 0) {
       let matchedDog = matchRequest(selectedDogs);
@@ -188,7 +186,7 @@ function FilterStack({
   };
 
   return (
-    <Stack direction="row">
+    <Stack direction="column">
       <BreedComboBox params={params} setParams={setParams} refetch={refetch} />
       <Button
         variant="contained"

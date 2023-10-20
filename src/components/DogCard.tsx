@@ -76,22 +76,22 @@ function DogCard({
               onClick={() => {
                 setSelected(!selected);
                 if (selectedDogs.includes(dog.id)) {
-                  console.log(
-                    `DEBUG [DogCard ${dogId}] remove me ->`,
-                    selectedDogs
-                  );
+                  //   console.log(
+                  //     `DEBUG [DogCard ${dogId}] remove me ->`,
+                  //     selectedDogs
+                  //   );
                   setSelectedDogs(selectedDogs.filter((id) => id != dog.id));
                 } else {
-                  console.log(
-                    `DEBUG [DogCard ${dogId}] add me ->`,
-                    selectedDogs
-                  );
+                  //   console.log(
+                  //     `DEBUG [DogCard ${dogId}] add me ->`,
+                  //     selectedDogs
+                  //   );
                   setSelectedDogs([...selectedDogs, dog.id]);
                 }
               }}
             >
               {selected ? (
-                <FavoriteRounded fontSize="medium" />
+                <FavoriteRounded fontSize="medium" color="secondary" />
               ) : (
                 <FavoriteBorderRounded fontSize="medium" />
               )}

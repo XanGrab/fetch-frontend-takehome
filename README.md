@@ -4,13 +4,19 @@ A simple client-facing API for the Fetch take-home exercise built using TypeScri
 
 ## Testing Locally
 
-1. `git clone` Clone repository into local directory
+1. `git clone` Clone repository into a local directory
 2. `npm i` Install dependencies with node package manager
-3. `npm run build` OR `tsc && vite build` Build project locally and serve however you choose.
+3. `npm run build` OR `tsc && vite build` Build the project locally and serve however you choose.
 
 ## View Deployment At
 
 [fetch-frontend-takehome](https://xangrab.github.io/fetch-frontend-takehome/)
+
+## TODO 
+### Areas for further improvement/feature expansion
+
+- [ ] filter input fields for location
+- [ ] unit tests for build step
 
 ## General Requirements
 

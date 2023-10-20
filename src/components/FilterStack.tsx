@@ -18,6 +18,7 @@ import {
   idToDog,
 } from "../util";
 import { useState } from "react";
+import { Dog } from "../types/types";
 
 export async function fetchDogBreeds() {
   let getHeader = new Headers();
@@ -125,7 +126,6 @@ async function matchRequest(ids: string[]) {
   };
   const request = new Request(BASE_URI + MATCH_ENDPOINT, requestOptions);
 
-  //   let dog: Dog | null | undefined = null;
   let match = "";
   try {
     let response = await handleFetch(request);
@@ -135,17 +135,8 @@ async function matchRequest(ids: string[]) {
   } catch (err) {
     console.error(err);
   }
-  let dog = null;
-  try {
-    dog = await idToDog([match]);
-    if (typeof dog === (null || undefined)) {
-      console.dir("ERROR [matchRequest > idToDog] returned non-Dog type ", dog);
-    }
-  } catch (err) {
-    console.error(err);
-  }
+  let dog: Dog = await idToDog([match]);
 
-  console.dir("DEBUG [FilterStack > matchRequest] matched with: ", dog);
   return dog;
 }
 
@@ -164,11 +155,25 @@ function FilterStack({
   setMatch: any;
 }) {
   const [sendAlert, setAlertState] = useState(false);
-  const handleClick = () => {
+  const handleClick = async () => {
     if (selectedDogs.length > 0) {
-      let matchedDog = matchRequest(selectedDogs);
-      setMatch(matchedDog);
+      let matchedDog = await matchRequest(selectedDogs);
+      try {
+        if (matchedDog === null || matchedDog === undefined) {
+          throw new TypeError(
+            "ERROR [FilterStack > handleClick] invalid dog returned from Promise"
+          );
+        }
+        console.dir(
+          "DEBUG [FilterStack > handleClick] matched with ",
+          matchedDog
+        );
+        setMatch(matchedDog);
+      } catch (err) {
+        console.error(err);
+      }
     } else {
+      // User has tried to request a match wo selecting dogs
       setAlertState(true);
     }
   };

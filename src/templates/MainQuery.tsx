@@ -6,12 +6,13 @@ import DogCard from "../components/DogCard";
 import FilterStack from "../components/FilterStack";
 import { Container, Grid, Pagination } from "@mui/material";
 import TempCard from "../components/TempCard";
-import { useEffect, useState } from "react";
+import { ErrorInfo, useEffect, useState } from "react";
 import React from "react";
 import { keepPreviousData } from "@tanstack/react-query";
 import Confetti from "react-confetti";
 import { Dog } from "../types/types";
 import DogModal from "../components/DogModal";
+import { ErrorBoundary } from "react-error-boundary";
 
 const resultsPerPage = 18;
 
@@ -78,8 +79,9 @@ function MainQuery() {
     new URLSearchParams({ from: "0", size: "" + resultsPerPage })
   );
   const [page, setPage] = useState(1);
-  const [matchedDog, setMatchedDog] = useState<Dog | null>(null);
   const [selectedDogs, setSelectedDogs] = useState<Array<string>>([]);
+
+  const [matchedDog, setMatchedDog] = useState<Dog | null>(null);
 
   useEffect(() => {
     console.dir("DEBUG [MainQuery] queryParams:", queryParams);
@@ -107,10 +109,17 @@ function MainQuery() {
   // issue lies in the URLSearchParams as a state object
   return (
     <Container>
-      {matchedDog ? (
+      {matchedDog?.name ? (
         <>
           <Confetti />
-          <DogModal matchedDog={matchedDog} setMatchedDog={setMatchedDog} />
+          <ErrorBoundary
+            fallback={<h1>ERROR</h1>}
+            onError={(err: Error, info: ErrorInfo) => {
+              console.error(err, info);
+            }}
+          >
+            <DogModal dog={matchedDog} setMatchedDog={setMatchedDog} />
+          </ErrorBoundary>
         </>
       ) : (
         <></>

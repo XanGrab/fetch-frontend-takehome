@@ -1,41 +1,41 @@
-import { Box, Modal } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, CardMedia, Modal, Stack, Typography } from "@mui/material";
 import { Dog } from "../types/types";
 
-function DogModal({
-  matchedDog,
-  setMatchedDog,
-}: {
-  matchedDog: Dog;
-  setMatchedDog: any;
-}) {
-  const [dog, setDog] = useState<Dog | null>(matchedDog);
-  useEffect(() => {
-    console.dir("DEBUG [DogModal] dog:", dog);
-  }, [dog]);
-
-  if (typeof matchedDog == null || typeof matchedDog == undefined) {
-    console.error("ERROR [DogModal] received invalid dog ", dog);
-  } else {
-    setDog(matchedDog);
-  }
+function DogModal({ dog, setMatchedDog }: { dog: Dog; setMatchedDog: any }) {
+  console.dir("DEBUG [DogModal] Open Modal for ", dog);
 
   return (
     <Modal
       open={Boolean(dog)}
       onClose={() => {
-        setDog(null);
         setMatchedDog(null);
       }}
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
     >
-      <Box>
-        <img src="src/assets/dog_emoji.svg" alt="test" />
-        {/* {dog ? <img src={dog.img} alt={dog.name} /> : <TempCard />} */}
+      <Box
+        sx={{
+          position: "absolute" as "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          bgcolor: "background.paper",
+          boxShadow: 24,
+          width: "30%",
+          height: "30%",
+        }}
+      >
+        <Stack sx={{ justifyContent: "center", alignItems: "center" }}>
+          <CardMedia
+            sx={{ width: 240, height: 140, marginY: 8 }}
+            image={dog.img}
+            title={dog.name}
+          />
+          <Typography variant="h2" color="text.primary">
+            {dog.name}
+          </Typography>
+        </Stack>
       </Box>
     </Modal>
   );

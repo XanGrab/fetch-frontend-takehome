@@ -11,7 +11,7 @@ const SEARCH_ENDPOINT = "/dogs/search?";
  * @param ids an array of dog ids, trimmed to the first 100 Ids
  * @returns An
  */
-async function idToDog(ids: string[]) {
+async function idToDog(ids: string[]): Promise<Dog> {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Cookie", document.cookie);
@@ -30,22 +30,15 @@ async function idToDog(ids: string[]) {
   };
   const request = new Request(BASE_URI + "/dogs", requestOptions);
 
-  let dog: Dog | null = null;
-  try {
-    let response = await handleFetch(request);
-    let res_body = await response?.text();
-    let res_json = JSON.parse(res_body as string);
-    dog = res_json[0] as Dog;
-    if (typeof dog === undefined) {
-      throw new Error(
-        "ERROR [util > idToDog] returning non-Dog type" + res_body
-      );
-    }
-
-    return dog;
-  } catch (err) {
-    console.error(err);
+  let dog: Dog;
+  let response = await handleFetch(request);
+  let res_body = await response?.text();
+  let res_json = JSON.parse(res_body as string);
+  dog = res_json[0] as Dog;
+  if (typeof dog === undefined || typeof dog === null) {
+    throw new Error("ERROR [util > idToDog] returning non-Dog type" + res_body);
   }
+  return dog;
 }
 
 //Create a POST req and return the response object

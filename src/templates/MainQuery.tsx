@@ -83,6 +83,22 @@ function MainQuery() {
 
   const [matchedDog, setMatchedDog] = useState<Dog | null>(null);
 
+  const { data, refetch } = useQuery({
+    queryKey: ["dogs", queryParams],
+    queryFn: fetchDogIds,
+    placeholderData: keepPreviousData,
+  });
+
+  function calcTotalPages(data: any): number {
+    console.log(
+      "Total Result Pages: ",
+      data.total,
+      resultsPerPage,
+      Math.ceil(data.total / resultsPerPage)
+    );
+    return Math.ceil(data.total / resultsPerPage);
+  }
+
   useEffect(() => {
     console.dir("DEBUG [MainQuery] queryParams:", queryParams);
   }, [queryParams]);
@@ -91,19 +107,20 @@ function MainQuery() {
   }, [selectedDogs]);
 
   function handlePageChange(_event: React.ChangeEvent<any>, newPage: number) {
-    console.log("DEBUG [MainQuery > handlePageChange] newPage", newPage);
+    console.log("DEBUG [MainQuery > handlePageChange] newPage", newPage - 1);
     setPage(newPage);
 
     queryParams.set("from", "" + resultsPerPage * (newPage - 1));
+    let resultsToReturn = data.total - resultsPerPage * (newPage - 1);
+    if (resultsToReturn < resultsPerPage) {
+      // fewer results to return than the page display rate
+      queryParams.set("size", resultsToReturn.toString());
+    } else {
+      queryParams.set("size", resultsPerPage.toString());
+    }
     setQueryParams(queryParams);
     refetch();
   }
-
-  const { data, refetch } = useQuery({
-    queryKey: ["dogs", queryParams],
-    queryFn: fetchDogIds,
-    placeholderData: keepPreviousData,
-  });
 
   // TODO make dog card grid update locally on state change
   // issue lies in the URLSearchParams as a state object
@@ -146,7 +163,7 @@ function MainQuery() {
           )}
           {data ? (
             <Pagination
-              count={Math.ceil(data.total / resultsPerPage)}
+              count={calcTotalPages(data)}
               color="primary"
               page={page}
               onChange={handlePageChange}

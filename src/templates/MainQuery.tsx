@@ -4,13 +4,14 @@ import { useQuery } from "react-query";
 import { BASE_URI, SEARCH_ENDPOINT } from "../util";
 import DogCard from "../components/DogCard";
 import FilterStack from "../components/FilterStack";
-import { Container, Grid, Modal, Pagination, Typography } from "@mui/material";
+import { Container, Grid, Pagination } from "@mui/material";
 import TempCard from "../components/TempCard";
 import { useEffect, useState } from "react";
 import React from "react";
 import { keepPreviousData } from "@tanstack/react-query";
 import Confetti from "react-confetti";
 import { Dog } from "../types/types";
+import DogModal from "../components/DogModal";
 
 const resultsPerPage = 16;
 
@@ -79,22 +80,13 @@ function MainQuery() {
   // issue lies in the URLSearchParams as a state object
   return (
     <Container>
-      {matchedDog && (
+      {matchedDog ? (
         <>
           <Confetti />
-          <Modal
-            open={Boolean(matchedDog)}
-            onClose={() => {
-              setMatchedDog(null);
-            }}
-          >
-            <Grid>
-              <Grid item xs={3}>
-                <Typography>matchedDog.name</Typography>
-              </Grid>
-            </Grid>
-          </Modal>
+          <DogModal dog={matchedDog} setDog={setMatchedDog} />
         </>
+      ) : (
+        <></>
       )}
       <Grid container spacing={2}>
         <Grid item xs={3}>

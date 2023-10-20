@@ -15,12 +15,12 @@ import { FavoriteBorderRounded, FavoriteRounded } from "@mui/icons-material";
 
 function DogCard({
   dogId,
-  selectedDogs,
-  setSelectedDogs,
+  selectedDogs = [],
+  setSelectedDogs = undefined,
 }: {
   dogId: string;
-  selectedDogs: Array<string>;
-  setSelectedDogs: any;
+  selectedDogs?: Array<string>;
+  setSelectedDogs?: any;
 }) {
   const [selected, setSelected] = useState(selectedDogs.includes(dogId));
   const { data: dog, status } = useQuery({

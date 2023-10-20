@@ -1,8 +1,10 @@
 import {
+  Alert,
   Autocomplete,
   Box,
   Button,
   Container,
+  Snackbar,
   Stack,
   TextField,
 } from "@mui/material";
@@ -15,6 +17,7 @@ import {
   handleFetch,
   idToDog,
 } from "../util";
+import { useState } from "react";
 
 export async function fetchDogBreeds() {
   let getHeader = new Headers();
@@ -161,16 +164,35 @@ function FilterStack({
   selectedDogs: string[];
   setMatch: any;
 }) {
+  const [sendAlert, setAlertState] = useState(false);
+
+  const handleClick = () => {
+    if (selectedDogs.length > 0) {
+      let matchedDog = matchRequest(selectedDogs);
+      setMatch(matchedDog);
+    } else {
+      setAlertState(true);
+    }
+  };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setAlertState(false);
+  };
+
   return (
     <Stack direction="row">
       <BreedComboBox params={params} setParams={setParams} refetch={refetch} />
       <Button
         variant="contained"
         endIcon={<SearchRounded />}
-        onClick={() => {
-          let matchedDog = matchRequest(selectedDogs);
-          setMatch(matchedDog);
-        }}
+        onClick={handleClick}
         sx={{
           marginY: 16,
           margin: 32,
@@ -180,6 +202,16 @@ function FilterStack({
       >
         MATCH!
       </Button>
+      <Snackbar open={sendAlert} autoHideDuration={3000} onClose={handleClose}>
+        <Alert
+          variant="filled"
+          severity="info"
+          sx={{ width: "100%" }}
+          onClose={handleClose}
+        >
+          Please select some nice dogs!
+        </Alert>
+      </Snackbar>
     </Stack>
   );
 }

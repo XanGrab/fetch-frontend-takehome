@@ -67,6 +67,9 @@ function DogCard({
             <Typography variant="body2" color="text.secondary">
               Age: {dog.age}
             </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Location: {dog.zip_code}
+            </Typography>
           </CardContent>
         </Grid>
         <CardActions>

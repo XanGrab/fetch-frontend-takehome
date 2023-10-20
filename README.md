@@ -1,6 +1,6 @@
 # Fetch Frontend Takehome Exercise - XanGrab
 
-A simple client-facing API for the Fetch take-home exercise built using TypeScript, React, ReactQuery, and Vite. Deployed Using GitHub Pages.
+A simple client-facing API for the Fetch take-home exercise built using TypeScript, React, ReactQuery, and Vite. Deployed using GitHub Pages.
 
 ## Testing Locally
 

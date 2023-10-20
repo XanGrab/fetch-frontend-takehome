@@ -1,7 +1,6 @@
-import { Box, CardMedia, Modal, Typography } from "@mui/material";
-import { Dog } from "../types/types";
-import TempCard from "./TempCard";
+import { Box, Modal } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Dog } from "../types/types";
 
 function DogModal({
   matchedDog,
@@ -10,15 +9,22 @@ function DogModal({
   matchedDog: Dog;
   setMatchedDog: any;
 }) {
-  const [dog, setDog] = useState(matchedDog);
+  const [dog, setDog] = useState<Dog | null>(matchedDog);
   useEffect(() => {
     console.dir("DEBUG [DogModal] dog:", dog);
   }, [dog]);
+
+  if (typeof matchedDog == null || typeof matchedDog == undefined) {
+    console.error("ERROR [DogModal] received invalid dog ", dog);
+  } else {
+    setDog(matchedDog);
+  }
 
   return (
     <Modal
       open={Boolean(dog)}
       onClose={() => {
+        setDog(null);
         setMatchedDog(null);
       }}
       sx={{

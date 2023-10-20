@@ -57,7 +57,7 @@ function DogCardGrid({
 }) {
   //   console.log("DEBUG [DogCardGrid] ids:", queryResponse);
   return (
-    <Container sx={{ marginTop: 32 }}>
+    <Container sx={{ marginTop: 32, alignItems: "center" }}>
       <Grid container spacing={4}>
         {queryResponse.resultIds.map((id: string) => (
           <DogCard

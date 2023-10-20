@@ -4,7 +4,7 @@ A simple client-facing API for the Fetch take-home exercise built using TypeScri
 
 ## Testing Locally
 
-1. `git clone [url]` Clone repository into local directory
+1. `git clone` Clone repository into local directory
 2. `npm i` Install dependencies with node package manager
 3. `npm run build` OR `tsc && vite build` Build project locally and serve however you choose.
 

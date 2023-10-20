@@ -41,8 +41,6 @@ An engineer will review the code you submit. You will be evaluated based on:
 
 We provide our own backend to facilitate searching/fetching dog info. The base URL is https://frontend-take-home-service.fetch.com.
 
-Testing with Postman: https://app.getpostman.com/join-team?invite_code=67744eb2e9bec2583935acd213aedca7&target_code=44bf422a7f8c3ecc689a327fc30665f7
-
 ### Data Model
 
 Here is the Typescript interface for the Dog objects returned by our API:

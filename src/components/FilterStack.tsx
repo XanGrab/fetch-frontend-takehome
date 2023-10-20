@@ -179,6 +179,7 @@ function FilterStack({
     event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
+    event;
     if (reason === "clickaway") {
       return;
     }
